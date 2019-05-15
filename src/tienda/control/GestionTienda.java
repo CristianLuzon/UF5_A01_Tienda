@@ -2,8 +2,8 @@ package tienda.control;
 
 import empleado.control.GestionarEmpleados;
 import empleado.dominio.Empleado;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import producto.control.GestionarProductos;
 import producto.dominio.Producto;
 import tienda.vista.VistaTienda;
 
@@ -12,14 +12,14 @@ public class GestionTienda
     private Empleado empleadoOnline;
     private List<Producto> cesta;
     private GestionarEmpleados gestionEmpleados;
-    //private GestionarProductos gestionProductos;
+    private GestionarProductos gestionProductos;
     
     public GestionTienda()
     {
         empleadoOnline = null;
         cesta = new ArrayList<>();
         gestionEmpleados = new GestionarEmpleados();
-        //gestionProductos = new GestionarProductos();
+        gestionProductos = new GestionarProductos();
     }
     
     public void iniciar()
@@ -50,28 +50,49 @@ public class GestionTienda
     
     public void MostarMenuPrincipal()
     {
-        switch(VistaTienda.OpcionesMenuPincipal())
+        boolean cerrarSesion = false;
+        while(!cerrarSesion)
         {
-            case HACER_PEDIDO:
+            switch(VistaTienda.OpcionesMenuPincipal())
             {
-                System.out.println("Pedido");
-            }break;
-            case MODIFICAR_PRODUCTO:
-            {
-                System.out.println("Mod Producto");
-            }break;
-            case CAMBIAR_PRODUCTO:
-            {
-                System.out.println("cambiar producto");
-            }break;
-            case CAMBIAR_CONTRASENA:
-            {
-                System.out.println("Cambiar pass");
-            }break;
-            case CERRAR_SESION:
-            {
-                System.out.println("Cerrar sesion");
-            }break;
+                case HACER_PEDIDO:
+                {
+                    MostarMenuHacerPedido();
+                }break;
+                case MODIFICAR_PRODUCTO:
+                {
+                    System.out.println("Mod Producto");
+                }break;
+                case CAMBIAR_PRODUCTO:
+                {
+                    System.out.println("cambiar producto");
+                }break;
+                case CAMBIAR_CONTRASENA:
+                {
+                    System.out.println("Cambiar pass");
+                }break;
+                case CERRAR_SESION:
+                {
+                    System.out.println("Cerrar sesion");
+                    cerrarSesion = true;
+                }break;
+            }
         }
+    }
+    public void MostarMenuHacerPedido()
+    {
+        while(true)
+        {
+            int codigoProducto = VistaTienda.OpcionesHacerPedido(gestionProductos);
+            cesta.add(gestionProductos.obtenerProductoCodigo(codigoProducto));
+            
+            //IF quieres aladir más productos
+
+        }
+    }
+    
+    public boolean productoExiste(int codigo)
+    {
+        return gestionProductos.productoExiste(codigo);
     }
 }

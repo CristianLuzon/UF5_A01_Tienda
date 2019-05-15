@@ -56,6 +56,12 @@ public class Producto
     @Override
     public String toString()
     {
+        return String.format("%d\t%s\t%.2f", 
+            getCodigo(), getNombre(), getPrecio());
+    }
+    
+    public String paraFactura()
+    {
         return String.format("%d %s %.2f %s", 
             getCodigo(), getNombre(), getPrecio(), getDescripcion());
     }

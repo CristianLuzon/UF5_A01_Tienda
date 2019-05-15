@@ -41,7 +41,7 @@ public class ConexionBBDD
         {
             System.out.println("La conexión no se ha podido establecer con: " + 
                 DATA_BASE_NAME);
-            ex.printStackTrace();
+            //ex.printStackTrace();
             System.exit(1);
         }      
         return conexion;
@@ -52,7 +52,6 @@ public class ConexionBBDD
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            //System.out.println("Driver cargado");
         }
         catch (ClassNotFoundException ex)
         {

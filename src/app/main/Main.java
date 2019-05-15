@@ -4,7 +4,6 @@ import tienda.control.GestionTienda;
 
 public class Main
 {
-    
     public static void main(String[] args)
     {
         Main app = new Main();
@@ -15,11 +14,5 @@ public class Main
     {
         GestionTienda tienda = new GestionTienda();
         tienda.iniciar();
-//       cargarProductos();     
-//       System.out.println("\n");
-//       cargarEmpleados();
-//       Empleado emp = obtenEmpleado(13);
-//       System.out.println(emp.getNombre());
     }
-    
 }
