@@ -81,15 +81,19 @@ public class GestionTienda
     }
     public void MostarMenuHacerPedido()
     {
-        while(true)
+        boolean seguirComprando = true;
+        while(seguirComprando)
         {
             int codigoProducto = VistaTienda.OpcionesHacerPedido(gestionProductos);
             cesta.add(gestionProductos.obtenerProductoCodigo(codigoProducto));
             
-            //IF quieres aladir más productos
-
+            //IF quieres añadir más productos a la cesta o terminar?
+            seguirComprando = VistaTienda.preguntar(
+                    "Desea seguir añadiendo productos a la cesta?");   
         }
     }
+    
+
     
     public boolean productoExiste(int codigo)
     {

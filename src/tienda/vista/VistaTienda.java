@@ -100,7 +100,8 @@ public class VistaTienda
                 }
                 else
                 {
-                    System.out.println("Producto añadido con exito.");
+                    System.out.println(String.format(
+                        "El producto(%d) ha sido añadido con exito.", opcion));
                 }
             }
             else
@@ -109,6 +110,7 @@ public class VistaTienda
                 leerTeclado.next();
             }
         }
+        //leerTeclado.next();//no se si funciona esto
         return opcion;
     }
     
@@ -125,6 +127,23 @@ public class VistaTienda
     {
         System.out.print("\033[H\033[2J");
         System.out.flush();
-}
+    }
+    
+    public static boolean preguntar(String pregunta)
+    {
+        Scanner scan = new Scanner(System.in);
+        boolean datosCorrectos = false;
+        String respuesta = "";
+        System.out.println(pregunta);
+        while(!datosCorrectos)
+        {
+            respuesta = scan.nextLine().toLowerCase();
+            if(!respuesta.equals("si") && !respuesta.equals("no"))
+                System.out.println("Respuesta invalida. Escriba \"Si\" o \"No\"");
+            else
+                datosCorrectos = true;
+        }
+        return  respuesta.equals("si") ? true : false;
+    }
     
 }
