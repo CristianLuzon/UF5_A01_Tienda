@@ -20,8 +20,12 @@ public class ControladorEmpleado
     {
         return empleadoDAO.actualizarEmpleados(empleados);
     }
-    public Empleado obtenetEmpleado(int tCodigo)
+    public Empleado obtenerEmpleado(int tCodigo)
     {
         return empleadoDAO.obtenerEmpleado(tCodigo);
+    }
+    public void cambiarContrasena(Empleado empleado, String nuevaContrasena)
+    {
+        empleadoDAO.CambiarContrasena(empleado, nuevaContrasena);
     }
 }

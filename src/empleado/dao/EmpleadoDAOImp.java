@@ -156,4 +156,25 @@ public class EmpleadoDAOImp implements EmpleadoDAO
         return empleado;
     }
 
+    @Override
+    public void CambiarContrasena(Empleado empleado, String nuevaContrasena)
+    {
+        /*update empleados set e_contrasena = '321' where e_nombre = 'Ilyass'*/
+        String query = String.format(
+                "update empleados set e_contrasena = '%s' where e_nombre = '%s';",
+                nuevaContrasena, empleado.getNombre());
+        
+        try(Connection conexion = ConexionBBDD.conectar();
+            Statement sentencia = conexion.createStatement();)
+        {   
+            sentencia.executeUpdate(query);
+            empleado.setContrasena(nuevaContrasena);
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("La petición a fallado.\n" + ex +
+                this.getClass().getName());
+        }
+    }
+
 }

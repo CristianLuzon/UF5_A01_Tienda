@@ -1,37 +1,34 @@
 package tienda.vista;
 
+import java.util.List;
 import java.util.Scanner;
 import producto.control.GestionarProductos;
+import producto.dominio.Producto;
 import util.Color;
+import util.MenuHacerPedido;
 import util.MenuPrincipal;
 
 public class VistaTienda
-{
-//    public static enum MenuPrincipal
-//    {
-//        HACER_PEDIDO,
-//        MODIFICAR_PRODUCTO,
-//        CAMBIAR_PRODUCTO,
-//        CAMBIAR_CONTRASENA,
-//        CERRAR_SESION
-//        
-//    }
-    //public MenuPrincipal menuPrincipal;
-    
+{    
+    public static void bienvenidaEmpleado(String nombre)
+    {
+        System.out.println(String.format("%nBienvenide %s%n", nombre));
+    }
     public static MenuPrincipal OpcionesMenuPincipal()
     {
         borrarPantalla();
-        System.out.println("------------Menú principal-----------");
+        System.out.println("-------------Menú principal------------");
         System.out.println("   1. Hacer pedido");
         System.out.println("   2. Modificar producto");
         System.out.println("   3. Cambiar contraseña de empleado");
         System.out.println("   4. Cerrar sesión");
-        System.out.println("-------------------------------------");
+        System.out.println("---------------------------------------");
 
         int opcion = pedirOpcionEnRango(1, 4);
         MenuPrincipal menu = null;
 
-        switch (opcion) {
+        switch (opcion)
+        {
             case 1:
                 menu = MenuPrincipal.HACER_PEDIDO;
                 break;
@@ -47,8 +44,39 @@ public class VistaTienda
         }
         return menu;
     }
-    
-    public static int OpcionesHacerPedido(GestionarProductos listaProductos)
+    /*Metodos del pedido*/
+    public static MenuHacerPedido OpcionesHacerPedido()
+    {
+        borrarPantalla();
+        System.out.println("---------Acciones de la Cesta----------");
+        System.out.println("   1. Añadir Producto a la Cesta");
+        System.out.println("   2. Ver el Precio total de la Cesta");
+        System.out.println("   3. Imprimir factura");
+        System.out.println("   4. Finalizar pedido");
+        System.out.println("---------------------------------------");
+
+        int opcion = pedirOpcionEnRango(1, 4);
+        MenuHacerPedido pedido = null;
+
+        switch (opcion)
+        {
+            case 1:
+                pedido = MenuHacerPedido.AGREGAR_PRODUCTO;
+                break;
+            case 2:
+                pedido = MenuHacerPedido.COSTE_CESTA;
+                break;
+            case 3:
+                pedido = MenuHacerPedido.IMPRIMIR_FACTURA;
+                break;
+            case 4:
+                pedido = MenuHacerPedido.TERMINAR_PEDIDO;
+                break;
+        }
+        return pedido;
+    }
+    /*Sub menus y metodos del MenuHacerPedido*/
+    public static int OpcionAgregarProducto(GestionarProductos listaProductos)
     {
         borrarPantalla();
         System.out.println("\nQué producto quieres añadir?");
@@ -57,6 +85,25 @@ public class VistaTienda
         System.out.println("-------------------------------------");
         
         return pedirCodigoProducto(listaProductos);
+    }
+    public static void opcionCosteTotalCesta(float precio)
+    {
+        System.out.println("\nLa cesta actual cuesta " + precio + "€.\n");
+    }
+    public static void opcionImprimirFactura(List<Producto> cesta, float total, String empleado)
+    {
+        String factura = "\nFactura simplificada:\n----------------------------------------\n";
+        for(int i = 0, t = cesta.size(); i < t; i++)
+        {
+            factura += String.format(
+                    "Código:\t\t%s%nNombre:\t\t%s%nDescripción:\t%s%nPrecio:\t\t%s€%n", 
+                    cesta.get(i).getCodigo(), cesta.get(i).getNombre(),
+                    cesta.get(i).getDescripcion(), cesta.get(i).getPrecio());
+        }
+        factura +="----------------------------------------\n";
+        factura += String.format("Precio total: %.2f€%nAtendido por: %s%n",
+                total, empleado);
+        System.out.println(factura);
     }
 
     private static int pedirOpcionEnRango(int min, int max)
@@ -116,11 +163,11 @@ public class VistaTienda
     
     public static void mostarMensaje(String mensaje)
     {
-        System.out.println(mensaje + Color.DEFAULT);
+        System.out.println(mensaje + Color.SERIE);
     }
     public static void mostarMensaje(String mensaje, Color color)
     {
-        System.out.println(color + mensaje + Color.DEFAULT);
+        System.out.println(color + mensaje + Color.SERIE);
     }
     
     private static void borrarPantalla()

@@ -1,6 +1,7 @@
 package empleado.control;
 
 import empleado.dominio.Empleado;
+import empleado.vista.VistaControladorEmpleado;
 import java.util.Scanner;
 
 public class GestionarEmpleados
@@ -18,22 +19,13 @@ public class GestionarEmpleados
     {
         boolean empleValido = false;
         boolean contraValida = false;
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Bienvenido a la tienda");
         
-        System.out.print("Introduzca su codigo de usuario: ");
-        while (!scan.hasNextInt())
-        {
-            System.out.println("Necesito un caracter numerico.");
-            System.out.print("Introduzca su codigo de usuario: ");
-            scan.next();
-        }
-        int codigoEntrada = scan.nextInt();
+        VistaControladorEmpleado.loginBienvenida();
         
-        System.out.print("Introduzca la contraseña: ");
-        String contraEntrada = scan.next();
+        int codigoEntrada = VistaControladorEmpleado.loginCodigo();
+        String contraEntrada = VistaControladorEmpleado.loginContrasena();
         
-        empleadoOnline = controlador.obtenetEmpleado(codigoEntrada);
+        empleadoOnline = controlador.obtenerEmpleado(codigoEntrada);
         
         if(empleadoOnline != null)
         {
@@ -46,6 +38,43 @@ public class GestionarEmpleados
             throw new Exception("Empleado inexistente");
         else if(!contraValida)
             throw new Exception("Contraseña incorrecta");
+    }
+    
+    public void cambiarContrasena()
+    {
+        VistaControladorEmpleado.cambiarContrasena(empleadoOnline.getNombre());
+        
+        Scanner scan = new Scanner(System.in);
+        boolean datosCorrectos = false;
+        String nuevaContrasena = "";
+        String reNuevaContrasena = "";
+        
+        while (!datosCorrectos)
+        {            
+            nuevaContrasena = scan.next();
+            System.out.print("Repetir contraseña: ");
+            reNuevaContrasena = scan.next();
+            
+            if(nuevaContrasena.equals(reNuevaContrasena))
+            {
+                if(!nuevaContrasena.equals(empleadoOnline.getContrasena()))
+                {
+                    controlador.cambiarContrasena(empleadoOnline, nuevaContrasena);
+                    datosCorrectos = true;
+                }
+                else
+                {
+                    /*Excepción*/
+                    System.out.print("La contraseña es identica a la anterior!\nContraseña: ");
+                }
+            }
+            else
+            {
+                /*Excepción*/
+                System.out.println("La contraseña no coincide! Vuelva a intentarlo.\nContraseña: ");
+            }
+        }
+        System.out.println("Contraseña cambiada con exito.");
     }
     
     public Empleado getEmpleadoOnline()

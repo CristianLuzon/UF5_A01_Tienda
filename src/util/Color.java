@@ -2,9 +2,9 @@ package util;
 
 public enum Color
 {
-    EXITO("\u001B[32m"),
+    CORRECTO("\u001B[32m"),
     ERROR("\u001B[31m"),
-    DEFAULT("\u001B[0m");
+    SERIE("\u001B[0m");
     
     private String color;
     
@@ -12,7 +12,7 @@ public enum Color
     {
         this.color = color;
     }
-
+    
     @Override
     public String toString()
     {
