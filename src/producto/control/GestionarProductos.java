@@ -67,7 +67,7 @@ public class GestionarProductos
         
         while (!datosCorrectos)
         {            
-            scan.next();
+            System.out.print("nuevo Codigo: ");
             
             if(scan.hasNextInt())
             {
@@ -89,11 +89,16 @@ public class GestionarProductos
                 else
                 {
                     /*Excepción*/
-                    System.out.print("El codigo es identica al anterior!\nNuevo Codigo: ");
+                    System.out.println("El codigo es identica al anterior!");
                 }
             }
+            else
+            {
+                System.out.println("Valor incorrecto");
+                scan.next();
+            }
         }
-        System.out.println("Contraseña cambiada con exito.");
+        System.out.println("Codigo del producto cambiada con exito.");
     }
     public void modificarNombre(int codigoProducto)
     {
@@ -105,9 +110,10 @@ public class GestionarProductos
         Producto producto = obtenerProductoPorCodigo(codigoProducto);
         
         while (!datosCorrectos)
-        {            
-            nuevoNombre = scan.next();
-                
+        {   
+            System.out.print("Nuevo nombre: ");
+            nuevoNombre = scan.nextLine();
+            
             if(!nuevoNombre.equals(producto.getNombre()))
             {
                 if(!nombreProductoExiste(nuevoNombre))
@@ -124,9 +130,8 @@ public class GestionarProductos
             else
             {
                 /*Excepción*/
-                System.out.print("Nombre es identica al anterior!\nNuevo Nombre: ");
+                System.out.println("Ese Nombre es identica al anterior!");
             }
-
         }
         System.out.println("Nombre del producto cambiado con exito.");
     }
@@ -140,9 +145,8 @@ public class GestionarProductos
         Producto producto = obtenerProductoPorCodigo(codigoProducto);
         
         while (!datosCorrectos)
-        {            
-            scan.next();
-            
+        {
+            System.out.print("Nuevo precio: ");
             if(scan.hasNextFloat())
             {
                 nuevoPrecio = scan.nextFloat();
@@ -155,8 +159,13 @@ public class GestionarProductos
                 else
                 {
                     /*Excepción*/
-                    System.out.print("El precio es identica al anterior!\nNuevo Precio: ");
+                    System.out.println("El precio es identica al anterior!");
                 }
+            }
+            else
+            {
+                System.out.println("Incorrecto");
+                scan.next();
             }
         }
         System.out.println("Precio cambiada con exito.");

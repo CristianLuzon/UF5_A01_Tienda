@@ -55,10 +55,10 @@ public class VistaTienda
         System.out.println("   3. Imprimir factura");
         System.out.println("   4. Finalizar pedido");
         System.out.println("---------------------------------------");
-
+        
         int opcion = pedirOpcionEnRango(1, 4);
         MenuHacerPedido pedido = null;
-
+        
         switch (opcion)
         {
             case 1:
@@ -106,7 +106,7 @@ public class VistaTienda
                 total, empleado);
         System.out.println(factura);
     }
-    
+    /**/
     public static MenuModificarProducto OpcionesModificarProducto()
     {
         borrarPantalla();
@@ -116,7 +116,7 @@ public class VistaTienda
         System.out.println("   3. Modificar precio");
         System.out.println("   4. Terminar modificación");
         System.out.println("---------------------------------------");
-
+        
         int opcion = pedirOpcionEnRango(1, 4);
         MenuModificarProducto modifiacion = null;
 
@@ -137,6 +137,32 @@ public class VistaTienda
         }
         return modifiacion;
     }
+    /*Metodos de la modificación del producto*/
+    public static int elegirCodigoProductoModificar(GestionarProductos listaProductos)
+    {
+        borrarPantalla();
+        System.out.println(listaProductos.mostrarProductos());
+        System.out.println("Introduzca el codigo de producto a modificar.");
+        Scanner scan = new Scanner(System.in);
+        int codigo = 0;
+        boolean hayError = true;
+
+        while (hayError)
+        {
+            System.out.print("Codigo: ");
+            if (scan.hasNextInt())
+            {
+                codigo = scan.nextInt();
+                hayError = false;
+            } 
+            else
+            {
+                mostarMensaje("Error, codigo incorrecto", Color.ERROR);
+                scan.next();
+            }
+        }
+        return codigo;
+    }
 
     private static int pedirOpcionEnRango(int min, int max)
     {
@@ -144,15 +170,20 @@ public class VistaTienda
         int opcion = 0;
         boolean hayError = true;
 
-        while (hayError) {
+        while (hayError)
+        {
             System.out.print("Seleccione una opción: ");
-            if (leerTeclado.hasNextInt()) {
+            if (leerTeclado.hasNextInt())
+            {
                 opcion = leerTeclado.nextInt();
                 hayError = opcion < min || opcion > max;
-                if (hayError) {
+                if (hayError) 
+                {
                     mostarMensaje("Error, opción no válida. Debe ser entre [" + min + "," + max + "]", Color.ERROR);
                 }
-            } else {
+            } 
+            else
+            {
                 mostarMensaje("Error, opción no válida. Debe ser entre [" + min + "," + max + "]", Color.ERROR);
                 leerTeclado.next();
             }

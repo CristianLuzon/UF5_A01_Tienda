@@ -137,7 +137,7 @@ public class ProductoDAOImp implements ProductoDAO
     public void modificarCodigo(Producto producto, int nuevoCodigo)
     {
         String query = String.format(
-                "update productos set e_codigo = '%d' where e_codigo = %d",
+                "update productos set p_codigo = '%d' where p_codigo = %d;",
                 nuevoCodigo, producto.getCodigo());
         if(updateQueryProducto(query))
         {
@@ -154,7 +154,7 @@ public class ProductoDAOImp implements ProductoDAO
     public void modificarNombre(Producto producto, String nuevoNombre)
     {
         String query = String.format(
-                "update productos set e_nombre = '%s' where e_codigo = %d",
+                "update productos set p_nombre = '%s' where p_codigo = %d;",
                 nuevoNombre, producto.getCodigo());
         if(updateQueryProducto(query))
         {
@@ -170,8 +170,8 @@ public class ProductoDAOImp implements ProductoDAO
     public void modificarPrecio(Producto producto, float nuevoPrecio)
     {
         String query = String.format(
-                "update productos set e_codigo = '%.2f' where e_codigo = %d",
-                nuevoPrecio, producto.getCodigo());
+                "update productos set p_precio = %s where p_codigo = %d;",
+                Float.toString(nuevoPrecio).replace(',', '.'), producto.getCodigo());
         if(updateQueryProducto(query))
         {
             producto.setPrecio(nuevoPrecio);

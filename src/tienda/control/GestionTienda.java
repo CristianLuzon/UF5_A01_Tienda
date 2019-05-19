@@ -61,7 +61,7 @@ public class GestionTienda
                 } break;
                 case MODIFICAR_PRODUCTO:
                 {
-                    System.out.println("Mod Producto");
+                    mostrarMenuModificarProducto();
                 } break;
                 case CAMBIAR_CONTRASENA:
                 {
@@ -140,6 +140,21 @@ public class GestionTienda
     /*Metodos de la modificación del producto*/
     public void mostrarMenuModificarProducto()
     {
+        int productoEleguido = -1;
+        boolean productoExiste = false;
+        while(!productoExiste)
+        {
+            productoEleguido = VistaTienda.elegirCodigoProductoModificar(gestionProductos);
+            
+            if(productoExiste(productoEleguido))
+                productoExiste = true;
+            else
+            {
+                /*Excepción*/
+                System.out.println("Este producto no existe, vuelve a probar.");
+            }
+        }
+        
         boolean terminiarModifiacion = false;
         while (!terminiarModifiacion)
         {            
@@ -147,15 +162,15 @@ public class GestionTienda
             {
                 case MODIFICAR_CODIGO:
                 {
-                    gestionProductos.modificarCodigo(0);
+                    gestionProductos.modificarCodigo(productoEleguido);
                 } break;
                 case MODIFICAR_NOMBRE:
                 {
-                    gestionProductos.modificarNombre(0);
+                    gestionProductos.modificarNombre(productoEleguido);
                 } break;
                 case MODIFICAR_PRECIO:
                 {
-                    gestionProductos.modificarPrecio(0);
+                    gestionProductos.modificarPrecio(productoEleguido);
                 } break;
                 case TERMINAR_MODIFICACION:
                 {
@@ -164,5 +179,5 @@ public class GestionTienda
             }
         }
     }
-    /*Sub menus y metodos del MenuHacerPedido*/
+    /*Sub menus y metodos del ModificarProducto*/
 }
