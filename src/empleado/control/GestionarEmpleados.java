@@ -1,7 +1,7 @@
 package empleado.control;
 
 import empleado.dominio.Empleado;
-import empleado.vista.VistaControladorEmpleado;
+import empleado.vista.VistaGestionarEmpleado;
 import java.util.Scanner;
 
 public class GestionarEmpleados
@@ -20,10 +20,10 @@ public class GestionarEmpleados
         boolean empleValido = false;
         boolean contraValida = false;
         
-        VistaControladorEmpleado.loginBienvenida();
+        VistaGestionarEmpleado.loginBienvenida();
         
-        int codigoEntrada = VistaControladorEmpleado.loginCodigo();
-        String contraEntrada = VistaControladorEmpleado.loginContrasena();
+        int codigoEntrada = VistaGestionarEmpleado.loginCodigo();
+        String contraEntrada = VistaGestionarEmpleado.loginContrasena();
         
         empleadoOnline = controlador.obtenerEmpleado(codigoEntrada);
         
@@ -42,7 +42,7 @@ public class GestionarEmpleados
     
     public void cambiarContrasena()
     {
-        VistaControladorEmpleado.cambiarContrasena(empleadoOnline.getNombre());
+        VistaGestionarEmpleado.cambiarContrasena(empleadoOnline.getNombre());
         
         Scanner scan = new Scanner(System.in);
         boolean datosCorrectos = false;

@@ -133,6 +133,72 @@ public class ProductoDAOImp implements ProductoDAO
         return true;
     }
 
+    @Override
+    public void modificarCodigo(Producto producto, int nuevoCodigo)
+    {
+        String query = String.format(
+                "update productos set e_codigo = '%d' where e_codigo = %d",
+                nuevoCodigo, producto.getCodigo());
+        if(updateQueryProducto(query))
+        {
+            producto.setCodigo(nuevoCodigo);
+        }
+        else
+        {
+            /*Excepción*/
+            System.out.println("Error al cambiar el codigo de producto.");
+        }
+    }
+
+    @Override
+    public void modificarNombre(Producto producto, String nuevoNombre)
+    {
+        String query = String.format(
+                "update productos set e_nombre = '%s' where e_codigo = %d",
+                nuevoNombre, producto.getCodigo());
+        if(updateQueryProducto(query))
+        {
+            producto.setNombre(nuevoNombre);
+        }
+        else
+        {
+            /*Excepción*/
+            System.out.println("Error al cambiar el nombre de producto.");
+        }
+    }
+    @Override
+    public void modificarPrecio(Producto producto, float nuevoPrecio)
+    {
+        String query = String.format(
+                "update productos set e_codigo = '%.2f' where e_codigo = %d",
+                nuevoPrecio, producto.getCodigo());
+        if(updateQueryProducto(query))
+        {
+            producto.setPrecio(nuevoPrecio);
+        }
+        else
+        {
+            /*Excepción*/
+            System.out.println("Error al cambiar el precio de producto.");
+        }
+    }
+    
+    public boolean updateQueryProducto(String query)
+    {
+        try(Connection conexion = ConexionBBDD.conectar();
+            Statement sentencia = conexion.createStatement();)
+        {   
+            sentencia.executeUpdate(query);
+            return true;
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("La petición a fallado.\n" + ex +
+                this.getClass().getName());
+            return false;
+        }
+    }
+
    
     
     

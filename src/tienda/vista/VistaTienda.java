@@ -6,6 +6,7 @@ import producto.control.GestionarProductos;
 import producto.dominio.Producto;
 import util.Color;
 import util.MenuHacerPedido;
+import util.MenuModificarProducto;
 import util.MenuPrincipal;
 
 public class VistaTienda
@@ -105,6 +106,37 @@ public class VistaTienda
                 total, empleado);
         System.out.println(factura);
     }
+    
+    public static MenuModificarProducto OpcionesModificarProducto()
+    {
+        borrarPantalla();
+        System.out.println("-------Modificación del producto-------");
+        System.out.println("   1. Modificar codigo");
+        System.out.println("   2. Modificar nombre");
+        System.out.println("   3. Modificar precio");
+        System.out.println("   4. Terminar modificación");
+        System.out.println("---------------------------------------");
+
+        int opcion = pedirOpcionEnRango(1, 4);
+        MenuModificarProducto modifiacion = null;
+
+        switch (opcion)
+        {
+            case 1:
+                modifiacion = MenuModificarProducto.MODIFICAR_CODIGO;
+                break;
+            case 2:
+                modifiacion = MenuModificarProducto.MODIFICAR_NOMBRE;
+                break;
+            case 3:
+                modifiacion = MenuModificarProducto.MODIFICAR_PRECIO;
+                break;
+            case 4:
+                modifiacion = MenuModificarProducto.TERMINAR_MODIFICACION;
+                break;
+        }
+        return modifiacion;
+    }
 
     private static int pedirOpcionEnRango(int min, int max)
     {
@@ -140,7 +172,7 @@ public class VistaTienda
             if (leerTeclado.hasNextInt())
             {
                 opcion = leerTeclado.nextInt();
-                existe = gestion.obtenerProductoCodigo(opcion) == null ? false : true;
+                existe = gestion.obtenerProductoPorCodigo(opcion) == null ? false : true;
                 if(!existe)
                 {
                     System.out.println("Este codigo no existe. Vuelva a intentarlo.");

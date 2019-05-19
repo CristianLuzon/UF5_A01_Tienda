@@ -2,8 +2,8 @@ package util;
 
 public enum MenuModificarProducto
 {
-    CAMBIAR_CODIGO,
-    CAMBIAR_NOMBRE,
-    CAMBIAR_PRECIO,
+    MODIFICAR_CODIGO,
+    MODIFICAR_NOMBRE,
+    MODIFICAR_PRECIO,
     TERMINAR_MODIFICACION;
 }

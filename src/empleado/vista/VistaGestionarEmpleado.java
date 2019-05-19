@@ -2,9 +2,8 @@ package empleado.vista;
 
 import java.util.Scanner;
 
-public class VistaControladorEmpleado
+public class VistaGestionarEmpleado
 {
-    
     public static void loginBienvenida()
     {
         System.out.println(String.format("%s%n%s%n%s", "Le damos la a la tienda.",

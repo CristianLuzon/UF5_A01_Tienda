@@ -63,10 +63,6 @@ public class GestionTienda
                 {
                     System.out.println("Mod Producto");
                 } break;
-                case CAMBIAR_PRODUCTO:
-                {
-                    System.out.println("cambiar producto");
-                } break;
                 case CAMBIAR_CONTRASENA:
                 {
                     gestionEmpleados.cambiarContrasena();
@@ -117,7 +113,7 @@ public class GestionTienda
             /*Identificamos el producto por su codigo, lo guardamo y agregamos a la cesta.
             Tambien sumamos su precio al coste total de la cesta.*/
             int codigoProducto = VistaTienda.OpcionAgregarProducto(gestionProductos);
-            Producto nuevoProducto = gestionProductos.obtenerProductoCodigo(codigoProducto);
+            Producto nuevoProducto = gestionProductos.obtenerProductoPorCodigo(codigoProducto);
             cesta.add(nuevoProducto);
             costeTotalCesta += nuevoProducto.getPrecio();
             /*Se pregunta al empleado si quiere añadir más productos a la cesta o salir.*/
@@ -139,6 +135,34 @@ public class GestionTienda
     /*Metodo para comprobar la existencia de un producto.*/
     public boolean productoExiste(int codigo)
     {
-        return gestionProductos.productoExiste(codigo);
+        return gestionProductos.codigoProductoExiste(codigo);
     }
+    /*Metodos de la modificación del producto*/
+    public void mostrarMenuModificarProducto()
+    {
+        boolean terminiarModifiacion = false;
+        while (!terminiarModifiacion)
+        {            
+            switch(VistaTienda.OpcionesModificarProducto())
+            {
+                case MODIFICAR_CODIGO:
+                {
+                    gestionProductos.modificarCodigo(0);
+                } break;
+                case MODIFICAR_NOMBRE:
+                {
+                    gestionProductos.modificarNombre(0);
+                } break;
+                case MODIFICAR_PRECIO:
+                {
+                    gestionProductos.modificarPrecio(0);
+                } break;
+                case TERMINAR_MODIFICACION:
+                {
+                    terminiarModifiacion = true;
+                } break;
+            }
+        }
+    }
+    /*Sub menus y metodos del MenuHacerPedido*/
 }
