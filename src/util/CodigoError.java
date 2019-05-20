@@ -8,10 +8,11 @@ public enum CodigoError
     CONTRA_EMPLE_IDENTICA(3),
     /*Errores de Producto*/
     CODIGO_PRODUCTO_REPETIDO(4),
-    NOMBRE_PRODUCTO_REPETIDO(5),
+    CODIGO_PRODUCTO_INEXISTENTE(5),
+    NOMBRE_PRODUCTO_REPETIDO(6),
     /*Errores Generales*/
-    VALOR_INCORRECTO(6),
-    PRECIO_INCOHERENTE(7);
+    VALOR_INCORRECTO(7),
+    PRECIO_INCOHERENTE(8);
     
     private int codigo;
     

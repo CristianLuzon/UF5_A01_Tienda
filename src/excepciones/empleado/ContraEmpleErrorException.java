@@ -19,6 +19,11 @@ public class ContraEmpleErrorException extends RuntimeException
         super(message, cause);
         this.codigoError = codigoError.getCodigoError();
     }
+    public ContraEmpleErrorException( String message, CodigoError codigoError)
+    {
+        super(message);
+        this.codigoError = codigoError.getCodigoError();
+    }
 
     public int getCodigoError()
     {

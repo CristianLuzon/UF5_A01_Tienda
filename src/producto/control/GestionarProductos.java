@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Scanner;
 import producto.dominio.Producto;
 import producto.vista.VistaGestionarProducto;
+import tienda.vista.VistaTienda;
+import util.Color;
 
 public class GestionarProductos
 {
@@ -67,7 +69,7 @@ public class GestionarProductos
         
         while (!datosCorrectos)
         {            
-            System.out.print("nuevo Codigo: ");
+            VistaTienda.mostarMensaje("nuevo Codigo: ");
             
             if(scan.hasNextInt())
             {
@@ -94,11 +96,12 @@ public class GestionarProductos
             }
             else
             {
+                /*Excepción*/
                 System.out.println("Valor incorrecto");
                 scan.next();
             }
         }
-        System.out.println("Codigo del producto cambiada con exito.");
+        VistaTienda.mostarMensaje("Codigo del producto cambiada con exito.", Color.CORRECTO);
     }
     public void modificarNombre(int codigoProducto)
     {
@@ -111,7 +114,7 @@ public class GestionarProductos
         
         while (!datosCorrectos)
         {   
-            System.out.print("Nuevo nombre: ");
+            VistaTienda.mostarMensaje("Nuevo nombre: ");
             nuevoNombre = scan.nextLine();
             
             if(!nuevoNombre.equals(producto.getNombre()))
@@ -133,7 +136,7 @@ public class GestionarProductos
                 System.out.println("Ese Nombre es identica al anterior!");
             }
         }
-        System.out.println("Nombre del producto cambiado con exito.");
+        VistaTienda.mostarMensaje("Nombre del producto cambiado con exito.", Color.CORRECTO);
     }
     public void modificarPrecio(int codigoProducto)
     {
@@ -146,7 +149,7 @@ public class GestionarProductos
         
         while (!datosCorrectos)
         {
-            System.out.print("Nuevo precio: ");
+            VistaTienda.mostarMensaje("Nuevo precio: ");
             if(scan.hasNextFloat())
             {
                 nuevoPrecio = scan.nextFloat();
@@ -164,10 +167,11 @@ public class GestionarProductos
             }
             else
             {
+                /*Excepción*/
                 System.out.println("Incorrecto");
                 scan.next();
             }
         }
-        System.out.println("Precio cambiada con exito.");
+        VistaTienda.mostarMensaje("Precio cambiada con exito.", Color.CORRECTO);
     }
 }

@@ -3,6 +3,8 @@ package conexion;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import tienda.vista.VistaTienda;
+import util.Color;
 
 public class ConexionBBDD
 {
@@ -39,9 +41,9 @@ public class ConexionBBDD
         }
         catch (SQLException ex)
         {
-            System.out.println("La conexión no se ha podido establecer con: " + 
-                DATA_BASE_NAME);
-            //ex.printStackTrace();
+            VistaTienda.mostarMensaje("La conexión no se ha podido establecer con: " + 
+                DATA_BASE_NAME, Color.ERROR);
+            ex.printStackTrace();
             System.exit(1);
         }      
         return conexion;
@@ -55,7 +57,7 @@ public class ConexionBBDD
         }
         catch (ClassNotFoundException ex)
         {
-            System.out.println("No se ha podido cargar el diver JDBC MySQL");
+            VistaTienda.mostarMensaje("No se ha podido cargar el diver JDBC MySQL", Color.ERROR);
             System.exit(1);
         }
     }

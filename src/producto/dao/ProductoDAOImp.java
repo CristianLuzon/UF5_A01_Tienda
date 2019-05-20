@@ -7,6 +7,8 @@ import producto.dominio.Producto;
 import java.sql.*;
 import java.text.*;
 import java.util.*;
+import tienda.vista.VistaTienda;
+import util.Color;
 
 public class ProductoDAOImp implements ProductoDAO
 {
@@ -51,8 +53,8 @@ public class ProductoDAOImp implements ProductoDAO
         }
         catch (SQLException ex)
         {
-            System.out.println("La petición a fallado\n" +
-                this.getClass().getName());
+            VistaTienda.mostarMensaje("La petición a fallado\n" +
+                this.getClass().getName(), Color.ERROR);
         }
         return productos;
     }
@@ -126,8 +128,8 @@ public class ProductoDAOImp implements ProductoDAO
         }
         catch (SQLException ex)
         {
-            System.out.println("La petición a fallado\n" +
-                this.getClass().getName());
+            VistaTienda.mostarMensaje("La petición a fallado\n" +
+                this.getClass().getName(), Color.ERROR);
             return false;
         }
         return true;
@@ -193,13 +195,10 @@ public class ProductoDAOImp implements ProductoDAO
         }
         catch (SQLException ex)
         {
-            System.out.println("La petición a fallado.\n" + ex +
-                this.getClass().getName());
+            VistaTienda.mostarMensaje("La petición a fallado.\n" + ex +
+                this.getClass().getName(), Color.ERROR);
             return false;
         }
     }
-
-   
-    
     
 }

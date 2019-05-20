@@ -2,10 +2,13 @@ package tienda.control;
 
 import empleado.control.GestionarEmpleados;
 import empleado.dominio.Empleado;
+import excepciones.empleado.*;
+import excepciones.producto.CodProductoInexistenteException;
 import java.util.*;
 import producto.control.GestionarProductos;
 import producto.dominio.Producto;
 import tienda.vista.VistaTienda;
+import util.Color;
 
 public class GestionTienda
 {
@@ -24,30 +27,40 @@ public class GestionTienda
         gestionProductos = new GestionarProductos();
     }
     
+    /*Metodo del inicio de sesión*/
     public void iniciar()
     {
-        boolean loginCorrecto = false;
-        
-        while(!loginCorrecto)
+        while(VistaTienda.cerrarPrograma())
         {
-            try
+            boolean loginCorrecto = false;
+
+            while(!loginCorrecto)
             {
-                gestionEmpleados.login();
-                loginCorrecto = true;
+                try
+                {
+                    gestionEmpleados.login();
+                    loginCorrecto = true;
+                }
+                catch (CodEmpleErrorException ex)
+                {
+                    VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
+                }
+                catch (ContraEmpleErrorException ex)
+                {
+                    VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
+                }
+                catch (Exception ex)
+                {
+                    VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
+                }
             }
-            catch (Exception ex)
-            {
-                System.out.println("Login incorrecto");
-                /*Crear los catch para las diferentes excepciones personalizas.
-                Revisar la tarea de excepciones personalizadas y craelas en el package de "excepciones"*/
-            }
+            empleadoOnline = gestionEmpleados.getEmpleadoOnline();
+            VistaTienda.bienvenidaEmpleado(empleadoOnline.getNombre());
+
+            MostarMenuPrincipal();
         }
-        empleadoOnline = gestionEmpleados.getEmpleadoOnline();
-        VistaTienda.bienvenidaEmpleado(empleadoOnline.getNombre());
-        
-        MostarMenuPrincipal();
     }
-    /*Impirmir menu principal*/
+    /*Metodo del menu principal*/
     public void MostarMenuPrincipal()
     {
         boolean cerrarSesion = false;
@@ -69,13 +82,13 @@ public class GestionTienda
                 } break;
                 case CERRAR_SESION:
                 {
-                    System.out.println("Cerrar sesion");
+                    VistaTienda.mostarMensaje("Cerrar sesion.\n");
                     cerrarSesion = true;
                 } break;
             }
         }
     }
-    /*Metodos del pedido*/
+    /*Metodos del menú hacer pedido*/
     public void mostrarMenuHacerPedido()
     {
         boolean terminarPedido = false;
@@ -118,43 +131,48 @@ public class GestionTienda
             costeTotalCesta += nuevoProducto.getPrecio();
             /*Se pregunta al empleado si quiere añadir más productos a la cesta o salir.*/
             seguirComprando = VistaTienda.preguntar(
-                    "Desea seguir añadiendo productos a la cesta? (\"Si\" o \"No\")");   
+                    "Desea seguir añadiendo productos a la cesta? (\"Si\" o \"No\"): ");   
         }
     }
+    /*metodo para vaciar la lista cesta, que contiene los producto.*/
     public void vaciarCesta()
     {
         cesta.removeAll(cesta);
         costeTotalCesta = 0.0f;
     }
     
+    /*Metodo para cambiar la contraseña*/
     public void mostrarMenuCambiarContrasena()
     {
         gestionEmpleados.cambiarContrasena();
     }
     
-    /*Metodo para comprobar la existencia de un producto.*/
+    /*Metodo para comprobar la existencia de un producto por su codigo.*/
     public boolean productoExiste(int codigo)
     {
         return gestionProductos.codigoProductoExiste(codigo);
     }
-    /*Metodos de la modificación del producto*/
+    /*Metodos de menú de la modificación del producto*/
     public void mostrarMenuModificarProducto()
     {
         int productoEleguido = -1;
         boolean productoExiste = false;
+        /*Preguntamos por un codigo de producto hasta que se de uno existente.*/
         while(!productoExiste)
         {
-            productoEleguido = VistaTienda.elegirCodigoProductoModificar(gestionProductos);
-            
-            if(productoExiste(productoEleguido))
-                productoExiste = true;
-            else
+            try
             {
-                /*Excepción*/
-                System.out.println("Este producto no existe, vuelve a probar.");
+                productoEleguido = VistaTienda.elegirCodigoProductoModificar(gestionProductos);
+                
+                if (productoExiste(productoEleguido))
+                    productoExiste = true;
+            } 
+            catch (CodProductoInexistenteException ex)
+            {
+                VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
             }
         }
-        
+        /*Preguntamos lo que se va a modificar del producto.*/
         boolean terminiarModifiacion = false;
         while (!terminiarModifiacion)
         {            
@@ -179,5 +197,4 @@ public class GestionTienda
             }
         }
     }
-    /*Sub menus y metodos del ModificarProducto*/
 }

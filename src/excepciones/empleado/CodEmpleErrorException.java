@@ -19,6 +19,11 @@ public class CodEmpleErrorException extends RuntimeException
         super(message, cause);
         this.codigoError = codigoError.getCodigoError();
     }
+    public CodEmpleErrorException( String message, CodigoError codigoError)
+    {
+        super(message);
+        this.codigoError = codigoError.getCodigoError();
+    }
 
     public int getCodigoError()
     {

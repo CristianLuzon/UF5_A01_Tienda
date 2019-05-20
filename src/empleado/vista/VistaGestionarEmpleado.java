@@ -1,22 +1,23 @@
 package empleado.vista;
 
 import java.util.Scanner;
+import tienda.vista.VistaTienda;
 
 public class VistaGestionarEmpleado
 {
     public static void loginBienvenida()
     {
-        System.out.println(String.format("%s%n%s%n%s", "Le damos la a la tienda.",
+        VistaTienda.mostarMensaje(String.format("%s%n%s%n%s%n%n", "Le damos la a la tienda.",
                 "Debe introducir sus credenciales para poder acceder al sistema.", 
-                "Registro...\n"));
+                "Registro..."));
     }
     public static int loginCodigo()
     {
         Scanner scan = new Scanner(System.in);
-        System.out.print("Introduzca su codigo de usuario: ");
+        VistaTienda.mostarMensaje("Introduzca su codigo de usuario: ");
         while (!scan.hasNextInt())
         {
-            System.out.println("Necesito un caracter numerico.\n" +
+            VistaTienda.mostarMensaje("Necesito un caracter numerico.\n" +
                             "Introduzca su codigo de usuario: ");
             scan.next();
         }
@@ -25,7 +26,7 @@ public class VistaGestionarEmpleado
     public static String loginContrasena()
     {
         Scanner scan = new Scanner(System.in);
-        System.out.print("Introduzca su contraseña: ");
+        VistaTienda.mostarMensaje("Introduzca su contraseña: ");
         String contrasena = "";
         
         while(contrasena.isBlank())
@@ -36,7 +37,7 @@ public class VistaGestionarEmpleado
     }
     public static void cambiarContrasena(String nombre)
     {
-        System.out.print(
+        VistaTienda.mostarMensaje(
             "Por favor "+nombre+". Introduza su nueva contraseña.\nNueva contraseña: ");
     }
 }

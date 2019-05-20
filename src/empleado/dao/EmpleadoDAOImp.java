@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.*;
 import java.util.*;
+import tienda.vista.VistaTienda;
+import util.Color;
 
 public class EmpleadoDAOImp implements EmpleadoDAO
 {
@@ -98,7 +100,8 @@ public class EmpleadoDAOImp implements EmpleadoDAO
         }
         catch (SQLException ex)
         {
-            System.out.print("La petición a fallado..." + this.getClass().getName());
+            VistaTienda.mostarMensaje(
+                "La petición a fallado..." + this.getClass().getName(), Color.ERROR);
         }
         return empleados;
     }
@@ -123,8 +126,8 @@ public class EmpleadoDAOImp implements EmpleadoDAO
         }
         catch (SQLException ex)
         {
-            System.out.println("La petición a fallado.\n" +
-                this.getClass().getName());
+            VistaTienda.mostarMensaje(
+                "La petición a fallado..." + this.getClass().getName(), Color.ERROR);
         }
         return true;
     }
@@ -140,7 +143,6 @@ public class EmpleadoDAOImp implements EmpleadoDAO
             ResultSet resultado = sentencia.executeQuery(query);)
         {   
             resultado.next();
-            //int codigo = resultado.getInt("e_codigo");
             String nombre = resultado.getString("e_nombre");
             String apellido = resultado.getString("e_apellidos");
             String contrasena = resultado.getString("e_contrasena");
@@ -149,8 +151,8 @@ public class EmpleadoDAOImp implements EmpleadoDAO
         }
         catch (SQLException ex)
         {
-            System.out.println("La petición a fallado.\n" +
-                this.getClass().getName());
+            VistaTienda.mostarMensaje(
+                "La petición a fallado..." + this.getClass().getName(), Color.ERROR);
             return null;
         }
         return empleado;
@@ -172,8 +174,8 @@ public class EmpleadoDAOImp implements EmpleadoDAO
         }
         catch (SQLException ex)
         {
-            System.out.println("La petición a fallado.\n" + ex +
-                this.getClass().getName());
+            VistaTienda.mostarMensaje(
+                "La petición a fallado..." + this.getClass().getName(), Color.ERROR);
         }
     }
 

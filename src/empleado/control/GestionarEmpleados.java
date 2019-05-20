@@ -2,7 +2,12 @@ package empleado.control;
 
 import empleado.dominio.Empleado;
 import empleado.vista.VistaGestionarEmpleado;
+import excepciones.empleado.CodEmpleErrorException;
+import excepciones.empleado.ContraEmpleErrorException;
 import java.util.Scanner;
+import tienda.vista.VistaTienda;
+import util.CodigoError;
+import util.Color;
 
 public class GestionarEmpleados
 {
@@ -15,7 +20,7 @@ public class GestionarEmpleados
         empleadoOnline = null;
     }
     
-    public void login() throws Exception
+    public void login() throws CodEmpleErrorException, ContraEmpleErrorException
     {
         boolean empleValido = false;
         boolean contraValida = false;
@@ -35,9 +40,9 @@ public class GestionarEmpleados
         }
         
         if (!empleValido)
-            throw new Exception("Empleado inexistente");
+            throw new CodEmpleErrorException("Este codigo de empleado no existe", CodigoError.CODIGO_EMPLE_INCORRECTO);
         else if(!contraValida)
-            throw new Exception("Contraseña incorrecta");
+            throw new ContraEmpleErrorException("Contraseña incorrecta", CodigoError.CONTRA_EMPLE_INCORRECTO);
     }
     
     public void cambiarContrasena()
@@ -52,7 +57,7 @@ public class GestionarEmpleados
         while (!datosCorrectos)
         {            
             nuevaContrasena = scan.next();
-            System.out.print("Repetir contraseña: ");
+            VistaTienda.mostarMensaje("Repetir contraseña: ");
             reNuevaContrasena = scan.next();
             
             if(nuevaContrasena.equals(reNuevaContrasena))
@@ -74,7 +79,7 @@ public class GestionarEmpleados
                 System.out.println("La contraseña no coincide! Vuelva a intentarlo.\nContraseña: ");
             }
         }
-        System.out.println("Contraseña cambiada con exito.");
+        VistaTienda.mostarMensaje("Contraseña cambiada con exito.\n", Color.CORRECTO);
     }
     
     public Empleado getEmpleadoOnline()
