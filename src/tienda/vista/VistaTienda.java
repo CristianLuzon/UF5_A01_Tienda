@@ -30,7 +30,7 @@ public class VistaTienda
     public static MenuPrincipal OpcionesMenuPincipal()
     {
         borrarPantalla();
-        mostarMensaje(String.format("%s%n%s%n%s%n%s%n%s%n%s%n%n",
+        mostarMensaje(String.format("%s%n%s%n%s%n%s%n%s%n%s%n",
                 "-------------Menú principal------------",
                 "   1. Hacer pedido", 
                 "   2. Modificar producto",
@@ -105,9 +105,9 @@ public class VistaTienda
         mostarMensaje("\nLa cesta actual cuesta " + precio + "€.\n\n");
         esperarEnter();
     }
-    public static void opcionImprimirFactura(List<Producto> cesta, float total, String empleado)
+    public static String opcionImprimirFactura(List<Producto> cesta, float total, String empleado)
     {
-        String factura = "\nFactura simplificada:\n----------------------------------------\n";
+        String factura = "\nFactura simplificada:\r\n----------------------------------------\r\n";
         for(int i = 0, t = cesta.size(); i < t; i++)
         {
             factura += String.format(
@@ -115,17 +115,17 @@ public class VistaTienda
                     cesta.get(i).getCodigo(), cesta.get(i).getNombre(),
                     cesta.get(i).getDescripcion(), cesta.get(i).getPrecio());
         }
-        factura +="----------------------------------------\n";
+        factura +="----------------------------------------\r\n";
         factura += String.format("Precio total: %.2f € %nAtendido por: %s%n",
                 total, empleado);
         mostarMensaje(factura);
-        esperarEnter();
+        return factura;
     }
     /*Metodos del Menú para modificar producto*/
     public static MenuModificarProducto OpcionesModificarProducto()
     {
         borrarPantalla();
-        mostarMensaje(String.format("%s%n%s%n%s%n%s%n%s%n%s%n%n",
+        mostarMensaje(String.format("%s%n%s%n%s%n%s%n%s%n%s%n",
                 "-------Modificación del producto-------",
                 "   1. Modificar codigo",
                 "   2. Modificar nombre",
@@ -232,7 +232,6 @@ public class VistaTienda
                 {
                     mostarMensaje(String.format(
                         "El producto(%d) ha sido añadido con exito.%n%n", opcion), Color.CORRECTO);
-                    esperarEnter();
                 }
             }
             else

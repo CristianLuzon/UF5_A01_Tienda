@@ -3,9 +3,11 @@ package tienda.control;
 import empleado.control.GestionarEmpleados;
 import empleado.dominio.Empleado;
 import excepciones.empleado.*;
+import excepciones.factura.ErrorAccediendoAFacturaException;
 import excepciones.producto.CodProductoInexistenteException;
 import excepciones.producto.CodProductoRepetidoException;
 import excepciones.tienda.ErrorAccediendoATiendaException;
+import factura.control.GestionarFactura;
 import java.util.*;
 import producto.control.GestionarProductos;
 import producto.dominio.Producto;
@@ -115,8 +117,20 @@ public class GestionTienda
                 } break;
                 case IMPRIMIR_FACTURA:
                 {
-                    VistaTienda.opcionImprimirFactura(cesta, 
+                    String factura = VistaTienda.opcionImprimirFactura(cesta, 
                             costeTotalCesta, empleadoOnline.getNombre());
+                    try
+                    {
+                        if(GestionarFactura.crearArchivoFactura(factura))
+                        {
+                            VistaTienda.mostarMensaje(
+                                "El documento con la factura se ha creado sadisfactoriamente.\n", Color.CORRECTO);
+                            VistaTienda.esperarEnter();
+                        }
+                    } catch (ErrorAccediendoAFacturaException ex)
+                    {
+                        VistaTienda.mostarMensaje(ex.getMessage() + ex.getCause(), Color.ERROR);
+                    }
                 } break;
                 case TERMINAR_PEDIDO:
                 {
