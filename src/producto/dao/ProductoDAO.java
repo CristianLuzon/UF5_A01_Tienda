@@ -8,7 +8,7 @@ public interface ProductoDAO
 {
     List<Producto> leerProductos(); /*Read*/
     
-    boolean actualizarProductos(List<Producto> empleados);/*Update*/
+    void actualizarProductos(List<Producto> empleados);/*Update*/
     
     public void modificarCodigo(Producto producto, int nuevoCodigo);/*Update codigo*/
     public void modificarNombre(Producto producto, String nuevoNombre);/*Update nombre*/

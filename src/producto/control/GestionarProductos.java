@@ -1,10 +1,12 @@
 package producto.control;
 
+import excepciones.producto.CodProductoRepetidoException;
 import java.util.List;
 import java.util.Scanner;
 import producto.dominio.Producto;
 import producto.vista.VistaGestionarProducto;
 import tienda.vista.VistaTienda;
+import util.CodigoError;
 import util.Color;
 
 public class GestionarProductos
@@ -58,7 +60,7 @@ public class GestionarProductos
         return false;
     }
     
-    public void modificarCodigo(int codigoProducto)
+    public int modificarCodigo(int codigoProducto) throws CodProductoRepetidoException
     {
         VistaGestionarProducto.modificarCodigoProducto();
         
@@ -81,27 +83,28 @@ public class GestionarProductos
                     {
                         controlador.modificarCodigo(producto, nuevoCodigo);
                         datosCorrectos = true;
+                        VistaTienda.mostarMensaje("Codigo del producto cambiada con exito.\n", Color.CORRECTO);
+                        VistaTienda.esperarEnter();
+                        return nuevoCodigo;
                     }
                     else
                     {
-                        /*Excepción*/
-                        System.out.println("Este codigo de producto ya existe");
+                        throw new CodProductoRepetidoException("Este codigo de producto ya existe", CodigoError.CODIGO_PRODUCTO_REPETIDO);
                     }
                 }
                 else
                 {
-                    /*Excepción*/
-                    System.out.println("El codigo es identica al anterior!");
+                    VistaTienda.mostarMensaje("El codigo es identica al anterior!\n", Color.ERROR);
+                    VistaTienda.esperarEnter();
                 }
             }
             else
             {
-                /*Excepción*/
-                System.out.println("Valor incorrecto");
-                scan.next();
+                VistaTienda.mostarMensaje("Valor incorrecto\n", Color.ERROR);
+                VistaTienda.esperarEnter();
             }
         }
-        VistaTienda.mostarMensaje("Codigo del producto cambiada con exito.", Color.CORRECTO);
+        return -1;
     }
     public void modificarNombre(int codigoProducto)
     {
@@ -123,20 +126,21 @@ public class GestionarProductos
                 {
                     controlador.modificarNombre(producto, nuevoNombre);
                     datosCorrectos = true;
+                    VistaTienda.mostarMensaje("Nombre del producto cambiado con exito.\n", Color.CORRECTO);
+                    VistaTienda.esperarEnter();
                 }
                 else
                 {
-                    /*Excepción*/
-                    System.out.println("Este nombre de producto ya existe");
+                    VistaTienda.mostarMensaje("Este nombre de producto ya existe\n", Color.ERROR);
+                    VistaTienda.esperarEnter();
                 }
             }
             else
             {
-                /*Excepción*/
-                System.out.println("Ese Nombre es identica al anterior!");
+                VistaTienda.mostarMensaje("Ese Nombre es identica al anterior!\n", Color.ERROR);
+                VistaTienda.esperarEnter();
             }
-        }
-        VistaTienda.mostarMensaje("Nombre del producto cambiado con exito.", Color.CORRECTO);
+        } 
     }
     public void modificarPrecio(int codigoProducto)
     {
@@ -153,25 +157,16 @@ public class GestionarProductos
             if(scan.hasNextFloat())
             {
                 nuevoPrecio = scan.nextFloat();
-                
-                if(nuevoPrecio != producto.getPrecio())
-                {
-                    controlador.modificarPrecio(producto, nuevoPrecio);
-                    datosCorrectos = true;
-                }
-                else
-                {
-                    /*Excepción*/
-                    System.out.println("El precio es identica al anterior!");
-                }
+                controlador.modificarPrecio(producto, nuevoPrecio);
+                datosCorrectos = true;
+                VistaTienda.mostarMensaje("Precio cambiada con exito.\n", Color.CORRECTO);
+                VistaTienda.esperarEnter();
             }
             else
             {
-                /*Excepción*/
-                System.out.println("Incorrecto");
-                scan.next();
+                VistaTienda.mostarMensaje("Valor incorrecto, no es un numero entero.\n", Color.ERROR);
+                VistaTienda.esperarEnter();
             }
         }
-        VistaTienda.mostarMensaje("Precio cambiada con exito.", Color.CORRECTO);
     }
 }

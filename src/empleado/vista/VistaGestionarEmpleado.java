@@ -7,7 +7,8 @@ public class VistaGestionarEmpleado
 {
     public static void loginBienvenida()
     {
-        VistaTienda.mostarMensaje(String.format("%s%n%s%n%s%n%n", "Le damos la a la tienda.",
+        VistaTienda.borrarPantalla();
+        VistaTienda.mostarMensaje(String.format("%s%n%s%n%s%n%n", "Le damos la bienvenida a la tienda.",
                 "Debe introducir sus credenciales para poder acceder al sistema.", 
                 "Registro..."));
     }
@@ -38,6 +39,6 @@ public class VistaGestionarEmpleado
     public static void cambiarContrasena(String nombre)
     {
         VistaTienda.mostarMensaje(
-            "Por favor "+nombre+". Introduza su nueva contraseña.\nNueva contraseña: ");
+            "Por favor "+nombre+". Introduza su nueva contraseña.\n");
     }
 }

@@ -4,6 +4,7 @@ import empleado.control.GestionarEmpleados;
 import empleado.dominio.Empleado;
 import excepciones.empleado.*;
 import excepciones.producto.CodProductoInexistenteException;
+import excepciones.producto.CodProductoRepetidoException;
 import java.util.*;
 import producto.control.GestionarProductos;
 import producto.dominio.Producto;
@@ -44,14 +45,17 @@ public class GestionTienda
                 catch (CodEmpleErrorException ex)
                 {
                     VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
+                    VistaTienda.esperarEnter();
                 }
                 catch (ContraEmpleErrorException ex)
                 {
                     VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
+                    VistaTienda.esperarEnter();
                 }
                 catch (Exception ex)
                 {
                     VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
+                    VistaTienda.esperarEnter();
                 }
             }
             empleadoOnline = gestionEmpleados.getEmpleadoOnline();
@@ -180,7 +184,15 @@ public class GestionTienda
             {
                 case MODIFICAR_CODIGO:
                 {
-                    gestionProductos.modificarCodigo(productoEleguido);
+                    try
+                    {
+                        productoEleguido = gestionProductos.modificarCodigo(productoEleguido);
+                    }
+                    catch (CodProductoRepetidoException ex)
+                    {
+                        VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
+                        VistaTienda.esperarEnter();
+                    }
                 } break;
                 case MODIFICAR_NOMBRE:
                 {

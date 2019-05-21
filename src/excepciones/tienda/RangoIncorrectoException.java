@@ -1,25 +1,25 @@
-package excepciones.producto;
+package excepciones.tienda;
 
 import util.CodigoError;
 
-public class CodProductoRepetidoException extends RuntimeException
+public class RangoIncorrectoException extends RuntimeException
 {
     private int codigoError;
     
-    public CodProductoRepetidoException( String mensaje)
+    public RangoIncorrectoException( String mensaje)
     {
         super(mensaje);
     }
-    public CodProductoRepetidoException(String mensaje, Throwable causa)
+    public RangoIncorrectoException(String mensaje, Throwable causa)
     {
         super(mensaje, causa);
     }
-    public CodProductoRepetidoException( String message, Throwable cause, CodigoError codigoError)
+    public RangoIncorrectoException( String message, Throwable cause, CodigoError codigoError)
     {
         super(message, cause);
         this.codigoError = codigoError.getCodigoError();
     }
-    public CodProductoRepetidoException( String message, CodigoError codigoError)
+    public RangoIncorrectoException( String message, CodigoError codigoError)
     {
         super(message);
         this.codigoError = codigoError.getCodigoError();

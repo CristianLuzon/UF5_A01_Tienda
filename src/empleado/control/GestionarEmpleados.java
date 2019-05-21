@@ -42,7 +42,7 @@ public class GestionarEmpleados
         if (!empleValido)
             throw new CodEmpleErrorException("Este codigo de empleado no existe", CodigoError.CODIGO_EMPLE_INCORRECTO);
         else if(!contraValida)
-            throw new ContraEmpleErrorException("Contraseña incorrecta", CodigoError.CONTRA_EMPLE_INCORRECTO);
+            throw new ContraEmpleErrorException("Contraseña incorrecta.\n", CodigoError.CONTRA_EMPLE_INCORRECTO);
     }
     
     public void cambiarContrasena()
@@ -55,7 +55,8 @@ public class GestionarEmpleados
         String reNuevaContrasena = "";
         
         while (!datosCorrectos)
-        {            
+        {
+            VistaTienda.mostarMensaje("Nueva contraseña: ");
             nuevaContrasena = scan.next();
             VistaTienda.mostarMensaje("Repetir contraseña: ");
             reNuevaContrasena = scan.next();
@@ -66,20 +67,21 @@ public class GestionarEmpleados
                 {
                     controlador.cambiarContrasena(empleadoOnline, nuevaContrasena);
                     datosCorrectos = true;
+                    VistaTienda.mostarMensaje("Contraseña cambiada con exito.\n", Color.CORRECTO);
+                    VistaTienda.esperarEnter();
                 }
                 else
                 {
-                    /*Excepción*/
-                    System.out.print("La contraseña es identica a la anterior!\nContraseña: ");
+                    VistaTienda.mostarMensaje("La contraseña es identica a la anterior!", Color.ERROR);
+                    VistaTienda.esperarEnter();
                 }
             }
             else
             {
-                /*Excepción*/
-                System.out.println("La contraseña no coincide! Vuelva a intentarlo.\nContraseña: ");
+               VistaTienda.mostarMensaje("La contraseña no coincide! Vuelva a intentarlo.", Color.ERROR);
+               VistaTienda.esperarEnter();
             }
         }
-        VistaTienda.mostarMensaje("Contraseña cambiada con exito.\n", Color.CORRECTO);
     }
     
     public Empleado getEmpleadoOnline()

@@ -28,7 +28,7 @@ public class ConexionBBDD
         UTL_PARAMETRES = "?useUnicode=true&serverTimezone=UTC";
         URL = String.format("%s%s:%s/%s%s", 
         PLACE, HOST, PORT, DATA_BASE_NAME, UTL_PARAMETRES);
-        cargarDriver();
+        //cargarDriver();
     }
     
     public static Connection conectar()
@@ -43,7 +43,7 @@ public class ConexionBBDD
         {
             VistaTienda.mostarMensaje("La conexión no se ha podido establecer con: " + 
                 DATA_BASE_NAME, Color.ERROR);
-            ex.printStackTrace();
+            //ex.printStackTrace();
             System.exit(1);
         }      
         return conexion;

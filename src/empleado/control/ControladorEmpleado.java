@@ -2,7 +2,10 @@ package empleado.control;
 
 import empleado.dao.*;
 import empleado.dominio.Empleado;
+import excepciones.tienda.ErrorAccediendoATiendaException;
 import java.util.List;
+import tienda.vista.VistaTienda;
+import util.Color;
 
 public class ControladorEmpleado
 {
@@ -14,7 +17,16 @@ public class ControladorEmpleado
     }
     public List<Empleado> leerEmpleados()
     {
-        return empleadoDAO.leerEmpleados();
+        try
+        {
+            return empleadoDAO.leerEmpleados();
+        }
+        catch (ErrorAccediendoATiendaException ex)
+        {
+            VistaTienda.mostarMensaje(ex.getMessage() + ex.getCause(), Color.ERROR);
+            VistaTienda.esperarEnter();
+        }
+        return null;
     }
     public boolean actualizarEmpleados(List<Empleado> empleados)
     {

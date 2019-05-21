@@ -3,6 +3,7 @@ package empleado.dao;
 import conexion.ConexionBBDD;
 import empleado.dominio.Empleado;
 import empleado.dao.EmpleadoDAO;
+import excepciones.tienda.ErrorAccediendoATiendaException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,6 +12,7 @@ import java.sql.Statement;
 import java.text.*;
 import java.util.*;
 import tienda.vista.VistaTienda;
+import util.CodigoError;
 import util.Color;
 
 public class EmpleadoDAOImp implements EmpleadoDAO
@@ -79,7 +81,7 @@ public class EmpleadoDAOImp implements EmpleadoDAO
 //        return empleados;
 //    }
     @Override
-    public List<Empleado> leerEmpleados()
+    public List<Empleado> leerEmpleados() throws ErrorAccediendoATiendaException
     {
         List<Empleado> empleados = new ArrayList<>();
         String query = "select * from empleados";
@@ -93,15 +95,15 @@ public class EmpleadoDAOImp implements EmpleadoDAO
                 int codigo = resultado.getInt("e_codigo");
                 String nombre = resultado.getString("e_nombre");
                 String apellido = resultado.getString("e_apellidos");
-                String contrasena = resultado.getString("e_contrasena");
+                String contrasena = resultado.getString("e_password");
                 
                 empleados.add(new Empleado(codigo, nombre, apellido, contrasena));
             }
         }
         catch (SQLException ex)
         {
-            VistaTienda.mostarMensaje(
-                "La petición a fallado..." + this.getClass().getName(), Color.ERROR);
+            throw new ErrorAccediendoATiendaException(
+                    "La petición a fallado... ", ex, CodigoError.ERROR_DE_ACCESO_A_BBDD);
         }
         return empleados;
     }
@@ -120,14 +122,14 @@ public class EmpleadoDAOImp implements EmpleadoDAO
             int codigo = resultado.getInt("e_codigo");
             String nombre = resultado.getString("e_nombre");
             String apellido = resultado.getString("e_apellidos");
-            String contrasena = resultado.getString("e_contrasena");
+            String contrasena = resultado.getString("e_password");
 
             empleado = new Empleado(codigo, nombre, apellido, contrasena);
         }
         catch (SQLException ex)
         {
-            VistaTienda.mostarMensaje(
-                "La petición a fallado..." + this.getClass().getName(), Color.ERROR);
+            throw new ErrorAccediendoATiendaException(
+                    "La petición a fallado... ", ex, CodigoError.ERROR_DE_ACCESO_A_BBDD);
         }
         return true;
     }
@@ -145,12 +147,13 @@ public class EmpleadoDAOImp implements EmpleadoDAO
             resultado.next();
             String nombre = resultado.getString("e_nombre");
             String apellido = resultado.getString("e_apellidos");
-            String contrasena = resultado.getString("e_contrasena");
+            String contrasena = resultado.getString("e_password");
 
             empleado = new Empleado(tCodigo, nombre, apellido, contrasena);
         }
         catch (SQLException ex)
         {
+            //throw new ErrorAccediendoATiendaException("La petición a fallado... ", ex, CodigoError.ERROR_DE_ACCESO_A_BBDD);
             VistaTienda.mostarMensaje(
                 "La petición a fallado..." + this.getClass().getName(), Color.ERROR);
             return null;
@@ -163,7 +166,7 @@ public class EmpleadoDAOImp implements EmpleadoDAO
     {
         /*update empleados set e_contrasena = '321' where e_nombre = 'Ilyass'*/
         String query = String.format(
-                "update empleados set e_contrasena = '%s' where e_nombre = '%s';",
+                "update empleados set e_password = '%s' where e_nombre = '%s';",
                 nuevaContrasena, empleado.getNombre());
         
         try(Connection conexion = ConexionBBDD.conectar();
@@ -174,8 +177,8 @@ public class EmpleadoDAOImp implements EmpleadoDAO
         }
         catch (SQLException ex)
         {
-            VistaTienda.mostarMensaje(
-                "La petición a fallado..." + this.getClass().getName(), Color.ERROR);
+            throw new ErrorAccediendoATiendaException(
+                    "La petición a fallado... ", ex, CodigoError.ERROR_DE_ACCESO_A_BBDD);
         }
     }
 

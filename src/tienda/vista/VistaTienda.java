@@ -1,6 +1,8 @@
 package tienda.vista;
 
 import excepciones.producto.CodProductoInexistenteException;
+import excepciones.tienda.RangoIncorrectoException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 import producto.control.GestionarProductos;
@@ -15,13 +17,14 @@ public class VistaTienda
 {    
     public static boolean cerrarPrograma()
     {
-        mostarMensaje("Desea inicar sesión?\n\'Sí\', registrarme.\n\'No\' cierra el programa.\n");
-        
-        return preguntar("Elección: ");
+        borrarPantalla();
+        mostarMensaje("Desea inicar sesión?\n\'Sí\', registrarme.\n\'No\', cierra el programa.\n");
+        return preguntar("\nElección: ");
     }
     public static void bienvenidaEmpleado(String nombre)
     {
-        mostarMensaje(String.format("%nBienvenide %s%n%n", nombre));
+        borrarPantalla();
+        mostarMensaje(String.format("%nBienvenido %s%n%n", nombre));
     }
     /*Metodo del Menú principal*/
     public static MenuPrincipal OpcionesMenuPincipal()
@@ -59,7 +62,7 @@ public class VistaTienda
     public static MenuHacerPedido OpcionesHacerPedido()
     {
         borrarPantalla();
-        mostarMensaje(String.format("%s%n%s%n%s%n%s%n%s%n%s%n%n",
+        mostarMensaje(String.format("%s%n%s%n%s%n%s%n%s%n%s%n",
                 "---------Acciones de la Cesta----------",
                 "   1. Añadir Producto a la Cesta",
                 "   2. Ver el Precio total de la Cesta",
@@ -91,17 +94,19 @@ public class VistaTienda
     public static int OpcionAgregarProducto(GestionarProductos listaProductos)
     {
         borrarPantalla();
-        mostarMensaje(String.format("%s%n%s%n%s%n%s%n%n",
-                "\nQué producto quieres añadir?",
-                "------------Productos----------------",
+        mostarMensaje(String.format("%s%n%s%n%s%n%s%n%s%n",
+                "Qué producto quieres añadir?",
+                "---------------Productos---------------",
+                "Codigo\tNombre\t\t\tPrecio",
                 listaProductos.mostrarProductos(),
-                "-------------------------------------"));
+                "---------------------------------------"));
         
         return pedirCodigoProducto(listaProductos);
     }
     public static void opcionCosteTotalCesta(float precio)
     {
         mostarMensaje("\nLa cesta actual cuesta " + precio + "€.\n\n");
+        esperarEnter();
     }
     public static void opcionImprimirFactura(List<Producto> cesta, float total, String empleado)
     {
@@ -109,14 +114,15 @@ public class VistaTienda
         for(int i = 0, t = cesta.size(); i < t; i++)
         {
             factura += String.format(
-                    "Código:\t\t%s%nNombre:\t\t%s%nDescripción:\t%s%nPrecio:\t\t%s€%n", 
+                    "Código:\t\t%s%nNombre:\t\t%s%nDescripción:\t%s%nPrecio:\t\t%s€%n%n", 
                     cesta.get(i).getCodigo(), cesta.get(i).getNombre(),
                     cesta.get(i).getDescripcion(), cesta.get(i).getPrecio());
         }
         factura +="----------------------------------------\n";
-        factura += String.format("Precio total: %.2f€%nAtendido por: %s%n",
+        factura += String.format("Precio total: %.2f € %nAtendido por: %s%n",
                 total, empleado);
         mostarMensaje(factura);
+        esperarEnter();
     }
     /*Metodos del Menú para modificar producto*/
     public static MenuModificarProducto OpcionesModificarProducto()
@@ -151,11 +157,16 @@ public class VistaTienda
         return modifiacion;
     }
     /*Sub metodos de la modificación del producto*/
-    public static int elegirCodigoProductoModificar(GestionarProductos listaProductos)
+    public static int elegirCodigoProductoModificar(GestionarProductos listaProductos) throws CodProductoInexistenteException
     {
         borrarPantalla();
-        mostarMensaje(listaProductos.mostrarProductos() + "\n");
-        mostarMensaje("Introduzca el codigo de producto a modificar.\n");
+        mostarMensaje(String.format("%s%n%s%n%s%n%s%n%s%n%s%n",
+                "Qué producto quieres modificar?",
+                "---------------Productos----------------",
+                "Codigo\tNombre\t\tPrecio",
+                listaProductos.mostrarProductos(),
+                "----------------------------------------", 
+                "Introduzca el codigo de producto a modificar."));
         Scanner scan = new Scanner(System.in);
         int codigo = 0;
         boolean hayError = true;
@@ -193,13 +204,15 @@ public class VistaTienda
                 hayError = opcion < min || opcion > max;
                 if (hayError) 
                 {
-                    mostarMensaje("Error, opción no válida. Debe ser entre [" + min + "," + max + "]\n", Color.ERROR);
+                    throw new RangoIncorrectoException(
+                            "Error, opción no válida. Debe ser entre [" + min + "," + max + "]\n", CodigoError.RANGO_INCORRECTO);
                 }
             } 
             else
             {
-                mostarMensaje("Error, opción no válida. Debe ser entre [" + min + "," + max + "]\n", Color.ERROR);
                 leerTeclado.next();
+                throw new RangoIncorrectoException(
+                            "Error, opción no válida. Debe ser entre [" + min + "," + max + "]\n", CodigoError.RANGO_INCORRECTO);
             }
         }
         return opcion;
@@ -212,28 +225,28 @@ public class VistaTienda
 
         while (!existe)
         {
-            mostarMensaje("Seleccione una opción: ");
+            mostarMensaje("Codigo: ");
             if (leerTeclado.hasNextInt())
             {
                 opcion = leerTeclado.nextInt();
                 existe = gestion.obtenerProductoPorCodigo(opcion) == null ? false : true;
                 if(!existe)
                 {
-                    mostarMensaje("Este codigo no existe. Vuelva a intentarlo.\n");
+                    mostarMensaje("Este codigo no existe. Vuelva a intentarlo.\n", Color.ERROR);
                 }
                 else
                 {
                     mostarMensaje(String.format(
-                        "El producto(%d) ha sido añadido con exito.%n", opcion));
+                        "El producto(%d) ha sido añadido con exito.%n%n", opcion), Color.CORRECTO);
                 }
             }
             else
             {
-                mostarMensaje("Error, codigo no válida.\n");
+                mostarMensaje("Error, codigo no válida.\n", Color.ERROR);
                 leerTeclado.next();
             }
         }
-        //leerTeclado.next();//no se si funciona esto
+        VistaTienda.esperarEnter();
         return opcion;
     }
     
@@ -246,10 +259,29 @@ public class VistaTienda
         System.out.print(color + mensaje + Color.SERIE);
     }
     
-    private static void borrarPantalla()
+    /*private static void borrarPantalla()
     {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }*/
+    public static void borrarPantalla()
+    { 
+        try
+        {
+            if (System.getProperty("os.name").contains("Windows"))
+            {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            }
+            else
+            {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        }
+        catch (IOException | InterruptedException ex)
+        {
+            mostarMensaje(VistaTienda.class.getName() + ex, Color.ERROR);
+        }
     }
     
     public static boolean preguntar(String pregunta)
@@ -257,16 +289,23 @@ public class VistaTienda
         Scanner scan = new Scanner(System.in);
         boolean datosCorrectos = false;
         String respuesta = "";
-        mostarMensaje(pregunta);
         while(!datosCorrectos)
         {
+            mostarMensaje(pregunta);
             respuesta = scan.nextLine().toLowerCase();
             if(!respuesta.equals("si") && !respuesta.equals("no"))
-                mostarMensaje("Respuesta invalida. Escriba \"Si\" o \"No\"\n");
+                mostarMensaje("Respuesta invalida. Escriba \"Si\" o \"No\"\n", Color.ERROR);
             else
                 datosCorrectos = true;
         }
         return  respuesta.equals("si") ? true : false;
+    }
+    
+    public static void esperarEnter()
+    {
+        Scanner scanner = new Scanner(System.in);
+        mostarMensaje("Pulse enter para constinuar...");
+        scanner.nextLine();
     }
     
 }

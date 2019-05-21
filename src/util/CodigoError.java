@@ -12,7 +12,9 @@ public enum CodigoError
     NOMBRE_PRODUCTO_REPETIDO(6),
     /*Errores Generales*/
     VALOR_INCORRECTO(7),
-    PRECIO_INCOHERENTE(8);
+    PRECIO_INCOHERENTE(8),
+    RANGO_INCORRECTO(9),
+    ERROR_DE_ACCESO_A_BBDD(10);
     
     private int codigo;
     

@@ -1,14 +1,14 @@
 package producto.dao;
 
 import conexion.ConexionBBDD;
+import excepciones.tienda.ErrorAccediendoATiendaException;
 import producto.dao.ProductoDAO;
 import producto.dominio.Producto;
 
 import java.sql.*;
 import java.text.*;
 import java.util.*;
-import tienda.vista.VistaTienda;
-import util.Color;
+import util.CodigoError;
 
 public class ProductoDAOImp implements ProductoDAO
 {
@@ -53,8 +53,7 @@ public class ProductoDAOImp implements ProductoDAO
         }
         catch (SQLException ex)
         {
-            VistaTienda.mostarMensaje("La petición a fallado\n" +
-                this.getClass().getName(), Color.ERROR);
+            throw new ErrorAccediendoATiendaException("La petición a fallado... ", ex, CodigoError.ERROR_DE_ACCESO_A_BBDD);
         }
         return productos;
     }
@@ -107,7 +106,7 @@ public class ProductoDAOImp implements ProductoDAO
 //    }
 
     @Override
-    public boolean actualizarProductos(List<Producto> empleados)
+    public void actualizarProductos(List<Producto> empleados) throws ErrorAccediendoATiendaException
     {
         List<Producto> productos = new ArrayList<>();
         String query = "inset into Productos values";
@@ -128,76 +127,52 @@ public class ProductoDAOImp implements ProductoDAO
         }
         catch (SQLException ex)
         {
-            VistaTienda.mostarMensaje("La petición a fallado\n" +
-                this.getClass().getName(), Color.ERROR);
-            return false;
+           throw new ErrorAccediendoATiendaException("La petición a fallado... ", ex, CodigoError.ERROR_DE_ACCESO_A_BBDD);
         }
-        return true;
     }
 
     @Override
-    public void modificarCodigo(Producto producto, int nuevoCodigo)
+    public void modificarCodigo(Producto producto, int nuevoCodigo) throws ErrorAccediendoATiendaException
     {
         String query = String.format(
                 "update productos set p_codigo = '%d' where p_codigo = %d;",
                 nuevoCodigo, producto.getCodigo());
-        if(updateQueryProducto(query))
-        {
-            producto.setCodigo(nuevoCodigo);
-        }
-        else
-        {
-            /*Excepción*/
-            System.out.println("Error al cambiar el codigo de producto.");
-        }
+        
+        updateQueryProducto(query);
+        producto.setCodigo(nuevoCodigo);
     }
 
     @Override
-    public void modificarNombre(Producto producto, String nuevoNombre)
+    public void modificarNombre(Producto producto, String nuevoNombre) throws ErrorAccediendoATiendaException
     {
         String query = String.format(
                 "update productos set p_nombre = '%s' where p_codigo = %d;",
                 nuevoNombre, producto.getCodigo());
-        if(updateQueryProducto(query))
-        {
+        
+            updateQueryProducto(query);
             producto.setNombre(nuevoNombre);
-        }
-        else
-        {
-            /*Excepción*/
-            System.out.println("Error al cambiar el nombre de producto.");
-        }
     }
     @Override
-    public void modificarPrecio(Producto producto, float nuevoPrecio)
+    public void modificarPrecio(Producto producto, float nuevoPrecio) throws ErrorAccediendoATiendaException
     {
         String query = String.format(
                 "update productos set p_precio = %s where p_codigo = %d;",
                 Float.toString(nuevoPrecio).replace(',', '.'), producto.getCodigo());
-        if(updateQueryProducto(query))
-        {
-            producto.setPrecio(nuevoPrecio);
-        }
-        else
-        {
-            /*Excepción*/
-            System.out.println("Error al cambiar el precio de producto.");
-        }
+
+        updateQueryProducto(query);
+        producto.setPrecio(nuevoPrecio);
     }
     
-    public boolean updateQueryProducto(String query)
+    public void updateQueryProducto(String query) throws ErrorAccediendoATiendaException
     {
         try(Connection conexion = ConexionBBDD.conectar();
             Statement sentencia = conexion.createStatement();)
         {   
             sentencia.executeUpdate(query);
-            return true;
         }
         catch (SQLException ex)
         {
-            VistaTienda.mostarMensaje("La petición a fallado.\n" + ex +
-                this.getClass().getName(), Color.ERROR);
-            return false;
+            throw new ErrorAccediendoATiendaException("La petición a fallado... ", ex, CodigoError.ERROR_DE_ACCESO_A_BBDD);
         }
     }
     
