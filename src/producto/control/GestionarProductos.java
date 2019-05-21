@@ -20,7 +20,6 @@ public class GestionarProductos
         productos = controlador.leerProductos();
     }
     
-
     public String mostrarProductos()
     {
         String listarProductos = "";
@@ -40,7 +39,6 @@ public class GestionarProductos
         }
         return null;
     }
-    
     public boolean codigoProductoExiste(int codigo)
     {
         for (int i = 0, t = productos.size(); i < t; i++)
@@ -59,7 +57,6 @@ public class GestionarProductos
         }
         return false;
     }
-    
     public int modificarCodigo(int codigoProducto) throws CodProductoRepetidoException
     {
         VistaGestionarProducto.modificarCodigoProducto();
@@ -109,7 +106,6 @@ public class GestionarProductos
     public void modificarNombre(int codigoProducto)
     {
         VistaGestionarProducto.modificarNombreProducto();
-        
         Scanner scan = new Scanner(System.in);
         boolean datosCorrectos = false;
         String nuevoNombre = "";
@@ -145,7 +141,6 @@ public class GestionarProductos
     public void modificarPrecio(int codigoProducto)
     {
         VistaGestionarProducto.modificarPrecioProducto();
-        
         Scanner scan = new Scanner(System.in);
         boolean datosCorrectos = false;
         float nuevoPrecio = 0.0f;

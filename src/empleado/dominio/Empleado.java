@@ -8,7 +8,6 @@ public class Empleado
     private String contrasena;
     
     /*Constructores*/
-   
     public Empleado()
     {
         this(0, "", "", "");
@@ -54,13 +53,10 @@ public class Empleado
         this.contrasena = contrasena;
     }
     
-    
-    
     @Override
     public String toString()
     {
         return String.format("%d %s %s %s", 
             getCodigo(), getNombre(), getApellidos(), getContrasena());
     }
-    
 }

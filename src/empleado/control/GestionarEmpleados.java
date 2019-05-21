@@ -4,6 +4,7 @@ import empleado.dominio.Empleado;
 import empleado.vista.VistaGestionarEmpleado;
 import excepciones.empleado.CodEmpleErrorException;
 import excepciones.empleado.ContraEmpleErrorException;
+import excepciones.tienda.ErrorAccediendoATiendaException;
 import java.util.Scanner;
 import tienda.vista.VistaTienda;
 import util.CodigoError;
@@ -20,7 +21,7 @@ public class GestionarEmpleados
         empleadoOnline = null;
     }
     
-    public void login() throws CodEmpleErrorException, ContraEmpleErrorException
+    public void login() throws CodEmpleErrorException, ContraEmpleErrorException, ErrorAccediendoATiendaException
     {
         boolean empleValido = false;
         boolean contraValida = false;

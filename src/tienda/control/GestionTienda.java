@@ -5,6 +5,7 @@ import empleado.dominio.Empleado;
 import excepciones.empleado.*;
 import excepciones.producto.CodProductoInexistenteException;
 import excepciones.producto.CodProductoRepetidoException;
+import excepciones.tienda.ErrorAccediendoATiendaException;
 import java.util.*;
 import producto.control.GestionarProductos;
 import producto.dominio.Producto;
@@ -52,6 +53,11 @@ public class GestionTienda
                     VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
                     VistaTienda.esperarEnter();
                 }
+                catch(ErrorAccediendoATiendaException ex)
+                {
+                    VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
+                    VistaTienda.esperarEnter();
+                }
                 catch (Exception ex)
                 {
                     VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
@@ -60,7 +66,6 @@ public class GestionTienda
             }
             empleadoOnline = gestionEmpleados.getEmpleadoOnline();
             VistaTienda.bienvenidaEmpleado(empleadoOnline.getNombre());
-
             MostarMenuPrincipal();
         }
     }

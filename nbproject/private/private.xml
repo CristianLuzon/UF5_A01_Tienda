@@ -4,9 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/J:/IFP%20-%20DAM/Programacion/UF5/ActividadesEvaluables/UF5_A01_Cristian_LuzonRamirez/src/tienda/control/GestionTienda.java</file>
+            <file>file:/J:/IFP%20-%20DAM/Programacion/UF5/ActividadesEvaluables/UF5_A01_Cristian_LuzonRamirez/src/factura/control/GestionarFactura.java</file>
             <file>file:/J:/IFP%20-%20DAM/Programacion/UF5/ActividadesEvaluables/UF5_A01_Cristian_LuzonRamirez/src/tienda/vista/VistaTienda.java</file>
-            <file>file:/J:/IFP%20-%20DAM/Programacion/UF5/ActividadesEvaluables/UF5_A01_Cristian_LuzonRamirez/src/producto/dominio/Producto.java</file>
-            <file>file:/J:/IFP%20-%20DAM/Programacion/UF5/ActividadesEvaluables/UF5_A01_Cristian_LuzonRamirez/src/producto/control/ControladorProducto.java</file>
+            <file>file:/J:/IFP%20-%20DAM/Programacion/UF5/ActividadesEvaluables/UF5_A01_Cristian_LuzonRamirez/src/excepciones/factura/ErrorAccediendoAFacturaException.java</file>
         </group>
     </open-files>
 </project-private>

@@ -20,7 +20,7 @@ public class VistaGestionarEmpleado
         {
             VistaTienda.mostarMensaje("Necesito un caracter numerico.\n" +
                             "Introduzca su codigo de usuario: ");
-            scan.next();
+            VistaTienda.esperarEnter();
         }
         return scan.nextInt();
     }

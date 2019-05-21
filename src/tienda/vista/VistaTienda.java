@@ -1,7 +1,6 @@
 package tienda.vista;
 
 import excepciones.producto.CodProductoInexistenteException;
-import excepciones.tienda.RangoIncorrectoException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +13,8 @@ import util.MenuModificarProducto;
 import util.MenuPrincipal;
 
 public class VistaTienda
-{    
+{
+    /*Metodos para el menú de login.*/
     public static boolean cerrarPrograma()
     {
         borrarPantalla();
@@ -37,7 +37,6 @@ public class VistaTienda
                 "   3. Cambiar contraseña de empleado",
                 "   4. Cerrar sesión",
                 "---------------------------------------"));
-
         int opcion = pedirOpcionEnRango(1, 4);
         MenuPrincipal menu = null;
 
@@ -69,7 +68,6 @@ public class VistaTienda
                 "   3. Imprimir factura",
                 "   4. Finalizar pedido",
                 "---------------------------------------"));
-        
         int opcion = pedirOpcionEnRango(1, 4);
         MenuHacerPedido pedido = null;
         
@@ -99,8 +97,7 @@ public class VistaTienda
                 "---------------Productos---------------",
                 "Codigo\tNombre\t\t\tPrecio",
                 listaProductos.mostrarProductos(),
-                "---------------------------------------"));
-        
+                "---------------------------------------")); 
         return pedirCodigoProducto(listaProductos);
     }
     public static void opcionCosteTotalCesta(float precio)
@@ -135,7 +132,6 @@ public class VistaTienda
                 "   3. Modificar precio",
                 "   4. Terminar modificación",
                 "---------------------------------------"));
-        
         int opcion = pedirOpcionEnRango(1, 4);
         MenuModificarProducto modifiacion = null;
 
@@ -187,7 +183,6 @@ public class VistaTienda
         }
         return codigo;
     }
-    
     /*Metodos varios*/
     private static int pedirOpcionEnRango(int min, int max)
     {
@@ -204,15 +199,13 @@ public class VistaTienda
                 hayError = opcion < min || opcion > max;
                 if (hayError) 
                 {
-                    throw new RangoIncorrectoException(
-                            "Error, opción no válida. Debe ser entre [" + min + "," + max + "]\n", CodigoError.RANGO_INCORRECTO);
+                    mostarMensaje("Error, opción no válida. Debe ser entre [" + min + "," + max + "]\n", Color.ERROR);
                 }
             } 
             else
             {
                 leerTeclado.next();
-                throw new RangoIncorrectoException(
-                            "Error, opción no válida. Debe ser entre [" + min + "," + max + "]\n", CodigoError.RANGO_INCORRECTO);
+                mostarMensaje( "Error, opción no válida. Debe ser entre [" + min + "," + max + "]\n", Color.ERROR);
             }
         }
         return opcion;
@@ -233,11 +226,13 @@ public class VistaTienda
                 if(!existe)
                 {
                     mostarMensaje("Este codigo no existe. Vuelva a intentarlo.\n", Color.ERROR);
+                    esperarEnter();
                 }
                 else
                 {
                     mostarMensaje(String.format(
                         "El producto(%d) ha sido añadido con exito.%n%n", opcion), Color.CORRECTO);
+                    esperarEnter();
                 }
             }
             else
@@ -246,10 +241,9 @@ public class VistaTienda
                 leerTeclado.next();
             }
         }
-        VistaTienda.esperarEnter();
         return opcion;
     }
-    
+    /*Metodos basicos y útliles usados rutinariamente.*/
     public static void mostarMensaje(String mensaje)
     {
         System.out.print(mensaje + Color.SERIE);
@@ -258,12 +252,6 @@ public class VistaTienda
     {
         System.out.print(color + mensaje + Color.SERIE);
     }
-    
-    /*private static void borrarPantalla()
-    {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }*/
     public static void borrarPantalla()
     { 
         try
@@ -283,12 +271,18 @@ public class VistaTienda
             mostarMensaje(VistaTienda.class.getName() + ex, Color.ERROR);
         }
     }
-    
+    public static void esperarEnter()
+    {
+        Scanner scanner = new Scanner(System.in);
+        mostarMensaje("Pulse enter para continuar...");
+        scanner.nextLine();
+    }
     public static boolean preguntar(String pregunta)
     {
         Scanner scan = new Scanner(System.in);
         boolean datosCorrectos = false;
         String respuesta = "";
+        
         while(!datosCorrectos)
         {
             mostarMensaje(pregunta);
@@ -300,12 +294,4 @@ public class VistaTienda
         }
         return  respuesta.equals("si") ? true : false;
     }
-    
-    public static void esperarEnter()
-    {
-        Scanner scanner = new Scanner(System.in);
-        mostarMensaje("Pulse enter para constinuar...");
-        scanner.nextLine();
-    }
-    
 }
