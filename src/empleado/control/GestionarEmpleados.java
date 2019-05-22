@@ -4,8 +4,9 @@ import empleado.dominio.Empleado;
 import empleado.vista.VistaGestionarEmpleado;
 import excepciones.empleado.CodEmpleErrorException;
 import excepciones.empleado.ContraEmpleErrorException;
-import excepciones.tienda.ErrorAccediendoATiendaException;
+import java.util.List;
 import java.util.Scanner;
+import producto.dominio.Producto;
 import tienda.vista.VistaTienda;
 import util.CodigoError;
 import util.Color;
@@ -14,14 +15,16 @@ public class GestionarEmpleados
 {
     private ControladorEmpleado controlador;
     private Empleado empleadoOnline;
+    private List<Empleado> empleados;
     
     public GestionarEmpleados()
     {
         controlador = new ControladorEmpleado();
         empleadoOnline = null;
+        empleados = controlador.leerEmpleados();
     }
     
-    public void login() throws CodEmpleErrorException, ContraEmpleErrorException, ErrorAccediendoATiendaException
+    public void login() throws CodEmpleErrorException, ContraEmpleErrorException
     {
         boolean empleValido = false;
         boolean contraValida = false;
@@ -31,7 +34,7 @@ public class GestionarEmpleados
         int codigoEntrada = VistaGestionarEmpleado.loginCodigo();
         String contraEntrada = VistaGestionarEmpleado.loginContrasena();
         
-        empleadoOnline = controlador.obtenerEmpleado(codigoEntrada);
+        empleadoOnline = obtenerEmpleadoPorCodigo(codigoEntrada);
         
         if(empleadoOnline != null)
         {
@@ -66,7 +69,8 @@ public class GestionarEmpleados
             {
                 if(!nuevaContrasena.equals(empleadoOnline.getContrasena()))
                 {
-                    controlador.cambiarContrasena(empleadoOnline, nuevaContrasena);
+                    empleadoOnline.setContrasena(nuevaContrasena);
+                    controlador.cambiarContrasena(empleados);
                     datosCorrectos = true;
                     VistaTienda.mostarMensaje("Contraseña cambiada con exito.\n", Color.CORRECTO);
                     VistaTienda.esperarEnter();
@@ -83,6 +87,16 @@ public class GestionarEmpleados
                VistaTienda.esperarEnter();
             }
         }
+    }
+    
+    public Empleado obtenerEmpleadoPorCodigo(int codigo)
+    {
+        for (int i = 0, t = empleados.size(); i < t; i++)
+        {
+            if(codigo == empleados.get(i).getCodigo())
+                return empleados.get(i);
+        }
+        return null;
     }
     
     public Empleado getEmpleadoOnline()

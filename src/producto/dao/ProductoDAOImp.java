@@ -1,110 +1,100 @@
 package producto.dao;
 
-import conexion.ConexionBBDD;
-import excepciones.tienda.ErrorAccediendoATiendaException;
+import empleado.dominio.Empleado;
+import excepciones.empleado.ErrorAccediendoArchivoEmpleados;
+import excepciones.producto.ErrorAccediendoArchivoProductos;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.*;
 import producto.dao.ProductoDAO;
 import producto.dominio.Producto;
 import java.sql.*;
 import java.text.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import util.CodigoError;
 
 public class ProductoDAOImp implements ProductoDAO
 {  
+    private static final Path archivoProductos;
+    private NumberFormat formatoNumero;
+    private Number numero;
+    private String lineaDato;
+    /*Constructor*/
+    static
+    {
+        archivoProductos = Paths.get("productos.txt");
+    }
+    public ProductoDAOImp()
+    {
+        formatoNumero = NumberFormat.getInstance(Locale.FRANCE);
+        numero = 0;
+        lineaDato = "";
+    }
     /*Metodo para cargar todos los productos de la BBDD en el programa.*/
     @Override
-    public List<Producto> leerProductos()
+    public List<Producto> leerProductos() throws ErrorAccediendoArchivoProductos
     {
         List<Producto> productos = new ArrayList<>();
-        String query = "select * from productos";
-        
-        try(Connection conexion = ConexionBBDD.conectar();
-            Statement sentencia = conexion.createStatement();
-            ResultSet resultado = sentencia.executeQuery(query);)
-        {
-            
-            
-            while (resultado.next())
-            {                
-                int codigo = resultado.getInt("p_codigo");
-                String nombre = resultado.getString("p_nombre");
-                String descripcion = resultado.getString("p_descripcion");
-                double precio = resultado.getDouble("p_precio");
                 
+        try(BufferedReader archivo = Files.newBufferedReader(archivoProductos))
+        {
+            while(archivo.readLine() != null)
+            {
+                //Codigo
+                archivo.readLine();
+                lineaDato = archivo.readLine().trim();
+                numero = formatoNumero.parse(lineaDato);
+                int codigo = numero.intValue();
+                
+                //Nombre
+                archivo.readLine();
+                lineaDato = archivo.readLine().trim();
+                String nombre = lineaDato;
+                
+                //Descripcion
+                archivo.readLine();
+                lineaDato = archivo.readLine().trim();
+                String descripcion = lineaDato;
+                
+                //Precio
+                archivo.readLine();
+                lineaDato = archivo.readLine().trim();
+                numero = formatoNumero.parse(lineaDato);
+                double precio = numero.doubleValue();
+                
+                //Añadir producto
                 productos.add(new Producto(codigo, nombre, descripcion, precio));
             }
         }
-        catch (SQLException ex)
+        catch (ParseException ex)
         {
-            throw new ErrorAccediendoATiendaException("La petición a fallado... ", ex, CodigoError.ERROR_DE_ACCESO_A_BBDD);
+            throw new ErrorAccediendoArchivoProductos(
+                    "Error de formato en " + archivoProductos + ":\n", ex, CodigoError.ERROR_ARCHIVO_EMPLEADOS);
+        }
+        catch (IOException ex)
+        {
+            throw new ErrorAccediendoArchivoProductos(
+                    "Error de lectura en " + archivoProductos + ":\n", ex, CodigoError.ERROR_ARCHIVO_EMPLEADOS);
         }
         return productos;
     }
     @Override
-    public void actualizarProductos(List<Producto> empleados) throws ErrorAccediendoATiendaException
+    public void actualizarProductos(List<Producto> productos) throws ErrorAccediendoArchivoProductos
     {
-        List<Producto> productos = new ArrayList<>();
-        String query = "inset into Productos values";
-        
-        try(Connection conexion = ConexionBBDD.conectar();
-            Statement sentencia = conexion.createStatement();
-            ResultSet resultado = sentencia.executeQuery(query);)
+        try(BufferedWriter archivo = Files.newBufferedWriter(archivoProductos))
         {
-            while (resultado.next())
-            {                
-                int codigo = resultado.getInt("p_codigo");
-                String nombre = resultado.getString("p_nombre");
-                String descripcion = resultado.getString("p_descripcion");
-                double precio = resultado.getDouble("p_precio");
-                productos.add(new Producto(codigo, nombre, descripcion, precio));
+            for (Producto prod : productos)
+            {
+                archivo.write(prod.toFile() + "\n\r");
             }
         }
-        catch (SQLException ex)
+        catch(IOException ex)
         {
-           throw new ErrorAccediendoATiendaException("La petición a fallado... ", ex, CodigoError.ERROR_DE_ACCESO_A_BBDD);
-        }
-    }
-    @Override
-    public void modificarCodigo(Producto producto, int nuevoCodigo) throws ErrorAccediendoATiendaException
-    {
-        String query = String.format(
-                "update productos set p_codigo = '%d' where p_codigo = %d;",
-                nuevoCodigo, producto.getCodigo());
-
-        updateQueryProducto(query);
-        producto.setCodigo(nuevoCodigo);
-    }
-    @Override
-    public void modificarNombre(Producto producto, String nuevoNombre) throws ErrorAccediendoATiendaException
-    {
-        String query = String.format(
-                "update productos set p_nombre = '%s' where p_codigo = %d;",
-                nuevoNombre, producto.getCodigo());
-        
-            updateQueryProducto(query);
-            producto.setNombre(nuevoNombre);
-    }
-    @Override
-    public void modificarPrecio(Producto producto, float nuevoPrecio) throws ErrorAccediendoATiendaException
-    {
-        String query = String.format(
-                "update productos set p_precio = %s where p_codigo = %d;",
-                Float.toString(nuevoPrecio).replace(',', '.'), producto.getCodigo());
-
-        updateQueryProducto(query);
-        producto.setPrecio(nuevoPrecio);
-    }
-    /*Metodo global para acuatlizar los campos de la tabla productos*/
-    public void updateQueryProducto(String query) throws ErrorAccediendoATiendaException
-    {
-        try(Connection conexion = ConexionBBDD.conectar();
-            Statement sentencia = conexion.createStatement();)
-        {   
-            sentencia.executeUpdate(query);
-        }
-        catch (SQLException ex)
-        {
-            throw new ErrorAccediendoATiendaException("La petición a fallado... ", ex, CodigoError.ERROR_DE_ACCESO_A_BBDD);
+            throw new ErrorAccediendoArchivoProductos(
+                    "Error de escritura en " + archivoProductos + ":\n", ex, CodigoError.ERROR_ARCHIVO_EMPLEADOS);
         }
     }
 }

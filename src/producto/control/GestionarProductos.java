@@ -11,8 +11,8 @@ import util.Color;
 
 public class GestionarProductos
 {
-    List<Producto> productos;
-    ControladorProducto controlador;
+    private List<Producto> productos;
+    private ControladorProducto controlador;
     
     public GestionarProductos()
     {
@@ -78,7 +78,8 @@ public class GestionarProductos
                 {
                     if(!codigoProductoExiste(nuevoCodigo))
                     {
-                        controlador.modificarCodigo(producto, nuevoCodigo);
+                        producto.setCodigo(nuevoCodigo);
+                        controlador.actualizarProductos(productos);
                         datosCorrectos = true;
                         VistaTienda.mostarMensaje("Codigo del producto cambiada con exito.\n", Color.CORRECTO);
                         VistaTienda.esperarEnter();
@@ -120,7 +121,8 @@ public class GestionarProductos
             {
                 if(!nombreProductoExiste(nuevoNombre))
                 {
-                    controlador.modificarNombre(producto, nuevoNombre);
+                    producto.setNombre(nuevoNombre);
+                    controlador.actualizarProductos(productos);
                     datosCorrectos = true;
                     VistaTienda.mostarMensaje("Nombre del producto cambiado con exito.\n", Color.CORRECTO);
                     VistaTienda.esperarEnter();
@@ -152,7 +154,8 @@ public class GestionarProductos
             if(scan.hasNextFloat())
             {
                 nuevoPrecio = scan.nextFloat();
-                controlador.modificarPrecio(producto, nuevoPrecio);
+                producto.setPrecio(nuevoPrecio);
+                controlador.actualizarProductos(productos);
                 datosCorrectos = true;
                 VistaTienda.mostarMensaje("Precio cambiada con exito.\n", Color.CORRECTO);
                 VistaTienda.esperarEnter();

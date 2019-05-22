@@ -6,7 +6,6 @@ import excepciones.empleado.*;
 import excepciones.factura.ErrorAccediendoAFacturaException;
 import excepciones.producto.CodProductoInexistenteException;
 import excepciones.producto.CodProductoRepetidoException;
-import excepciones.tienda.ErrorAccediendoATiendaException;
 import factura.control.GestionarFactura;
 import java.util.*;
 import producto.control.GestionarProductos;
@@ -51,11 +50,6 @@ public class GestionTienda
                     VistaTienda.esperarEnter();
                 }
                 catch (ContraEmpleErrorException ex)
-                {
-                    VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
-                    VistaTienda.esperarEnter();
-                }
-                catch(ErrorAccediendoATiendaException ex)
                 {
                     VistaTienda.mostarMensaje(ex.getMessage(), Color.ERROR);
                     VistaTienda.esperarEnter();

@@ -2,7 +2,7 @@ package empleado.control;
 
 import empleado.dao.*;
 import empleado.dominio.Empleado;
-import excepciones.tienda.ErrorAccediendoATiendaException;
+import excepciones.empleado.ErrorAccediendoArchivoEmpleados;
 import java.util.List;
 import tienda.vista.VistaTienda;
 import util.Color;
@@ -21,23 +21,25 @@ public class ControladorEmpleado
         {
             return empleadoDAO.leerEmpleados();
         }
-        catch (ErrorAccediendoATiendaException ex)
+        catch (ErrorAccediendoArchivoEmpleados ex)
         {
-            VistaTienda.mostarMensaje(ex.getMessage() + ex.getCause(), Color.ERROR);
+            VistaTienda.mostarMensaje(ex.getMessage() + ex.getCause() + "\n", Color.ERROR);
             VistaTienda.esperarEnter();
+            System.exit(1);
         }
         return null;
     }
-    public boolean actualizarEmpleados(List<Empleado> empleados)
+    public void cambiarContrasena(List<Empleado> empleados)
     {
-        return empleadoDAO.actualizarEmpleados(empleados);
-    }
-    public Empleado obtenerEmpleado(int tCodigo)
-    {
-        return empleadoDAO.obtenerEmpleado(tCodigo);
-    }
-    public void cambiarContrasena(Empleado empleado, String nuevaContrasena)
-    {
-        empleadoDAO.CambiarContrasena(empleado, nuevaContrasena);
+        try
+        {
+            empleadoDAO.CambiarContrasena(empleados);
+        } 
+        catch (ErrorAccediendoArchivoEmpleados e)
+        {
+            VistaTienda.mostarMensaje(e.getMessage() + e.getCause() + "\n", Color.ERROR);
+            VistaTienda.esperarEnter();
+            System.exit(1);
+        }
     }
 }

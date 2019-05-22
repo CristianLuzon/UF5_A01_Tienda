@@ -102,12 +102,12 @@ public class VistaTienda
     }
     public static void opcionCosteTotalCesta(float precio)
     {
-        mostarMensaje("\nLa cesta actual cuesta " + precio + "€.\n\n");
+        mostarMensaje(String.format("%nLa cesta actual cuesta %.2f€.%n%n", precio));
         esperarEnter();
     }
     public static String opcionImprimirFactura(List<Producto> cesta, float total, String empleado)
     {
-        String factura = "\nFactura simplificada:\r\n----------------------------------------\r\n";
+        String factura = "\nFactura simplificada:\r\n----------------------------------------\r\n\n";
         for(int i = 0, t = cesta.size(); i < t; i++)
         {
             factura += String.format(
@@ -159,7 +159,7 @@ public class VistaTienda
         mostarMensaje(String.format("%s%n%s%n%s%n%s%n%s%n%s%n",
                 "Qué producto quieres modificar?",
                 "---------------Productos----------------",
-                "Codigo\tNombre\t\tPrecio",
+                "Codigo\tNombre\t\t\tPrecio",
                 listaProductos.mostrarProductos(),
                 "----------------------------------------", 
                 "Introduzca el codigo de producto a modificar."));

@@ -62,7 +62,14 @@ public class Producto
     
     public String paraFactura()
     {
-        return String.format("%d %s %.2f %s", 
-            getCodigo(), getNombre(), getPrecio(), getDescripcion());
+         return String.format("%d %s %.2f %s",
+                getCodigo(), getNombre(),
+                getDescripcion(), getPrecio());
+    }
+    
+    public String toFile()
+    {
+        return String.format("[producto]\r%n\t[codigo]\r%n\t%d\r%n\t[nombre]\r%n\t%s\r%n\t[descripcion]\r%n\t%s\r%n\t[precio]\r%n\t%.2f\r%n", 
+            getCodigo(), getNombre(), getDescripcion(), getPrecio());
     }
 }

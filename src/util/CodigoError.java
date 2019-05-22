@@ -15,7 +15,8 @@ public enum CodigoError
     PRECIO_INCOHERENTE(8),
     RANGO_INCORRECTO(9),
     ERROR_CREANDO_FACTURA(10),
-    ERROR_DE_ACCESO_A_BBDD(11);
+    ERROR_ARCHIVO_EMPLEADOS(11),
+    ERROR_ARCHIVO_PRODUCTOS(12);
     
     private int codigo;
     

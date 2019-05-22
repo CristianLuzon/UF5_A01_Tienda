@@ -1,6 +1,6 @@
 package producto.control;
 
-import excepciones.tienda.ErrorAccediendoATiendaException;
+import excepciones.producto.ErrorAccediendoArchivoProductos;
 import java.util.List;
 import producto.dao.*;
 import producto.dominio.Producto;
@@ -18,54 +18,29 @@ public class ControladorProducto
     
     public List<Producto> leerProductos()
     {
-        return productoDAO.leerProductos();
+        try
+        {
+            return productoDAO.leerProductos();
+        }
+        catch (ErrorAccediendoArchivoProductos ex)
+        {
+            VistaTienda.mostarMensaje(ex.getMessage() + ex.getCause() + "\n", Color.ERROR);
+            VistaTienda.esperarEnter();
+            System.exit(1);
+        }
+        return null;
     }
-    public void actualizarProducto(List<Producto> productos)
+    public void actualizarProductos(List<Producto> productos) 
     {
         try
         {
             productoDAO.actualizarProductos(productos);
         }
-        catch (ErrorAccediendoATiendaException ex)
+        catch (ErrorAccediendoArchivoProductos ex)
         {
-            VistaTienda.mostarMensaje(ex.getMessage() + ex.getCause(), Color.ERROR);
+            VistaTienda.mostarMensaje(ex.getMessage() + ex.getCause() + "\n", Color.ERROR);
             VistaTienda.esperarEnter();
-        }
-    }
-    public void modificarCodigo(Producto producto, int nuevoCodigo)
-    {
-        try
-        {
-            productoDAO.modificarCodigo(producto, nuevoCodigo);
-        }
-        catch (ErrorAccediendoATiendaException ex)
-        {
-            VistaTienda.mostarMensaje(ex.getMessage() + ex.getCause(), Color.ERROR);
-            VistaTienda.esperarEnter();
-        }
-    }
-    public void modificarNombre(Producto producto, String nuevoNombre)
-    {
-        try
-        {
-            productoDAO.modificarNombre(producto, nuevoNombre);
-        }
-        catch (ErrorAccediendoATiendaException ex)
-        {
-            VistaTienda.mostarMensaje(ex.getMessage() + ex.getCause(), Color.ERROR);
-            VistaTienda.esperarEnter();
-        }
-    }
-    public void modificarPrecio(Producto producto, float nuevoPrecio)
-    {
-        try
-        {
-            productoDAO.modificarPrecio(producto, nuevoPrecio);
-        }
-        catch (ErrorAccediendoATiendaException ex)
-        {
-            VistaTienda.mostarMensaje(ex.getMessage() + ex.getCause(), Color.ERROR);
-            VistaTienda.esperarEnter();
+            System.exit(1);
         }
     }
 }

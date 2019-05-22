@@ -53,6 +53,14 @@ public class Empleado
         this.contrasena = contrasena;
     }
     
+    public String toFile()
+    {
+        return String.format(
+                "[empleado]\r%n\t[codigo]\r%n\t%d\r%n\t[nombre]\r%n\t%s\r%n\t[apellidos]\r%n\t%s\r%n\t[contraseña]\r%n\t%s\r%n", 
+                getCodigo(), getNombre(),
+                getApellidos(), getContrasena());
+    }
+    
     @Override
     public String toString()
     {
