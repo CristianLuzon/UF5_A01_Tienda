@@ -1,0 +1,27 @@
+﻿
+Factura simplificada:
+----------------------------------------
+
+Código:		223
+Nombre:		Kingston A400 SSD 240GB
+Descripción:	Disco duro A400 de estado sólido de Kingston
+Precio:		32.95€
+
+Código:		224
+Nombre:		Lenovo Ideapad 530S
+Descripción:	Ordenador portátil con Intel Core i5, 8GB RAM, 256GB SSD
+Precio:		599.0€
+
+Código:		222
+Nombre:		Gigabyte B450M DS3H
+Descripción:	Placa base GIGABYTE serie 400 con tecnología AMD StoreMI
+Precio:		65.99€
+
+Código:		224
+Nombre:		Lenovo Ideapad 530S
+Descripción:	Ordenador portátil con Intel Core i5, 8GB RAM, 256GB SSD
+Precio:		599.0€
+
+----------------------------------------
+Precio total: 1296,94 € 
+Atendido por: Mario
